@@ -1,0 +1,3 @@
+[submodule "block_ai/lib/blokus"]
+	path = block_ai/lib/blokus
+	url = https://github.com/gregdeon/blokus.git
