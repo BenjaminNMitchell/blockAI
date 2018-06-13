@@ -1,7 +1,8 @@
 # Config file for block AI
 
 BASH_PROFILE="${HOME}/.bash_profile"
-CONFIG_FILE="${HOME}/.config/block_ai_config.sh"
+mkdir -p "${HOME}/.config/block_ai"
+CONFIG_FILE="${HOME}/.config/block_ai/block_ai_config.sh"
 echo "Writing to $BASH_PROFILE"
 echo "       and $CONFIG_FILE"
 
