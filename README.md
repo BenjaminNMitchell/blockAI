@@ -14,6 +14,12 @@ Overview:
     
 
 Setup:
+This requires the pipenv package
+
+``` python
+pip install pipenv
+pipenv install
+```
 
 Contributers
 - Ben Mitchell  GitHub: BenjaminNMitchell
