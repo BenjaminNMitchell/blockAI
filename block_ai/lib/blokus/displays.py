@@ -1,8 +1,8 @@
 """Classes to control the game's display (screen, GUI, etc)
 """
 
-from board import Board
-import colorama
+from .board import Board
+import .colorama
 colorama.init(autoreset=True)
 
 class Display(object):

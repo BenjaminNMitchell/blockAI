@@ -1,4 +1,4 @@
-from board import Move, Board
+from .board import Move, Board
 
 class Input(object):
     """The Input class defines an interface for the game engine to get input 
