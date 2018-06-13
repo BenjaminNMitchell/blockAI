@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+import os
 
 from .displays import CLIDisplay, NoDisplay
 from .inputs import RandomInput
@@ -21,8 +22,9 @@ class GameEngine(object):
             print("Need 4 input sources")
             sys.exit(1)
         self.inputs = inputs
-
-        self.piece_list = PieceList("valid_pieces.txt")
+        root_dir = os.environ["BLOCK_AI_ROOT"]
+        file_path = os.path.join(root_dir, "lib", "blokus", "valid_pieces.txt")
+        self.piece_list = PieceList(file_path)
         num_pcs = self.piece_list.getNumPieces()
 
         self.turn_num = 0

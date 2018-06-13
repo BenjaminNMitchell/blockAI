@@ -173,9 +173,3 @@ def getPieceList():
     """
     return global_piece_list
 
-if __name__ == "__main__":
-    # Test piece list loading
-    pl = PieceList("valid_pieces.txt")
-    print(pl.getNumPieces())
-    for i in range(pl.getNumPieces()):
-        print(pl.getPiece(i).getNumTiles())

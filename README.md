@@ -14,9 +14,18 @@ It makes use of a python blokus implimentation: from GitHub Use gregdeon availab
 <h2>Setup:</h2>
 This requires the pipenv package
 
+
 ``` python
+# Adds a bash config file in ~/.config/block_ai by default
+# and sources it in your ~/.bash_profile
+bash setup.sh
+
+# install the pipenv package manager
 pip install pipenv
+
+# Installs the python pcakages 
 pipenv install
+
 ```
 
 <h2>Contributers:</h2>
