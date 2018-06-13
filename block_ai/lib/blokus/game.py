@@ -1,10 +1,10 @@
 import sys
 import numpy as np
 
-from displays import CLIDisplay, NoDisplay
-from inputs import RandomInput
-from pieces import PieceList
-from board import Move, Board
+from .displays import CLIDisplay, NoDisplay
+from .inputs import RandomInput
+from .pieces import PieceList
+from .board import Move, Board
 
 class GameEngine(object):
     """Game engine class stores the current game state and controls when to 
