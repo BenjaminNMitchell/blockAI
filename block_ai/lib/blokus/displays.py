@@ -2,7 +2,7 @@
 """
 
 from .board import Board
-import .colorama
+import colorama
 colorama.init(autoreset=True)
 
 class Display(object):

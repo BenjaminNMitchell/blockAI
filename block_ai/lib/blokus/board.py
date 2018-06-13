@@ -1,4 +1,4 @@
-from pieces import PieceList
+from .pieces import PieceList
 
 class Move(object):
     """A Move describes how one of the players is going to spend their move.
