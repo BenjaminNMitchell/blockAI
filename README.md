@@ -20,7 +20,7 @@ pipenv install
 ```
 
 <h2>Contributers:</h2>
-- Ben Mitchell  GitHub: BenjaminNMitchell
-- Owen Mitchell 
-- gregdeon 
+Ben Mitchell  GitHub: BenjaminNMitchell Queens U & Ecobee
+Owen Mitchell 
+gregdeon 
 
