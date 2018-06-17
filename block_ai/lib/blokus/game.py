@@ -23,7 +23,7 @@ class GameEngine(object):
             sys.exit(1)
         self.inputs = inputs
         root_dir = os.environ["BLOCK_AI_ROOT"]
-        file_path = os.path.join(root_dir, "lib", "blokus", "valid_pieces.txt")
+        file_path = os.path.join(root_dir, "block_ai", "lib", "blokus", "valid_pieces.txt")
         self.piece_list = PieceList(file_path)
         num_pcs = self.piece_list.getNumPieces()
 

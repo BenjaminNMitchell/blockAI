@@ -10,5 +10,5 @@ echo "       and $CONFIG_FILE"
 echo "" >> $BASH_PROFILE
 echo "# Written BY BlockAI" >> $BASH_PROFILE
 echo "source $CONFIG_FILE" >> $BASH_PROFILE
-echo "BLOCK_AI_ROOT=$(pwd)" |> $CONFIG_FILE
+echo "export BLOCK_AI_ROOT=$(pwd)" >| $CONFIG_FILE
 
