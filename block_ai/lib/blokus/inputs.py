@@ -69,13 +69,55 @@ class RandomInput(Input):
         # Otherwise, pick a random move
         else:
             n = random.randint(0, len(move_list) - 1)
+            print(f"Move: {move_list[n]}")
             return move_list[n]
-
+        
 
 class CLIInput(Input):
     """The CLIInput class gets moves from the command line
     """
-    def getMove(self, player, engine):
-        # TODO
-        raise NotImplementedError("TODO")
+
+    def getMove(self, player, board, pieces):
+        x, y = self.get_position(board)
+        rotation = self.get_rotation()
+        tile = self.get_tile(pieces)
+        flip = self.get_flip()
+        return Move(tile, x, y, rotation, flip)
+  
+    def get_position(self, board):
+        x = self.get_index(board.board_w)
+        y = self.get_index(board.board_h)
+        return x, y
+
+    def get_rotation(self):
+        print("What rotation do you want?")
+        return self.get_int(1, 4)
+
+    def get_tile(self, pieces):
+        print("What tile would you like to play")
+        return self.get_index(21)
+
+    def get_flip(self):
+        print("Flipped (1) or not (2)?")
+        return self.get_index(2)
+
+    def get_index(self, upper):
+        val = self.get_int(1, upper)
+        return val - 1
+
+    def get_int(self, lower, upper):
+        while True:
+            msg = f"Enter an int between {lower} and {upper} or pass to skip: "
+            resp = input(msg)
+       
+            if resp == "pass":
+                return None
+            try:
+                val = int(resp)
+                if val > upper or val < lower:
+                    print(f"value not in [{lower}, {upper}]")
+                else:
+                    return val
+            except ValueError:
+                print("Invalid Entry: please try again")
 

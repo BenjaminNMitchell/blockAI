@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 from .displays import CLIDisplay, NoDisplay
-from .inputs import RandomInput
+from .inputs import RandomInput, CLIInput
 from .pieces import PieceList
 from .board import Move, Board
 
@@ -108,7 +108,8 @@ def test_bots():
 
 def main():
     disp = CLIDisplay()
-    inputs = [RandomInput() for p in range(4)]
+    inputs = [CLIInput()] + [RandomInput() for p in range(3)]
+    #inputs = [RandomInput() for p in range(4)]
     engine = GameEngine(disp, inputs)
     engine.playGame()
 

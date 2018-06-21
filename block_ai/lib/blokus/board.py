@@ -1,5 +1,5 @@
 from .pieces import PieceList
-
+import logging
 class Move(object):
     """A Move describes how one of the players is going to spend their move.
 
@@ -15,6 +15,13 @@ class Move(object):
         self.y = y
         self.rot = rot
         self.flip = flip
+    
+    def __str__(self):
+        return f"Piece: {self.piece}\n" \
+                f"X Position: {self.x}\n" \
+                f"Y Position: {self.y}\n" \
+                f"rot: {self.rot}\n" \
+                f"flip: {self.flip}\n"
 
 class Board(object):
     """A Board describes the current state of the game board. It's separate from
@@ -121,6 +128,7 @@ class Board(object):
 
             # If any tile is illegal, this move isn't valid
             if not self.checkTileLegal(player, x, y):
+                logging.debug("Move is Illegal: %s", move)
                 return False
 
             if self.checkTileAttached(player, x, y):
