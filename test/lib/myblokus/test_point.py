@@ -54,25 +54,31 @@ class PointTests(unittest.TestCase):
 
     @given(x=st.integers(), y=st.integers())
     def test_equal(self, x, y):
+        # Given
         p1 = Point(x, y)
         p2 = Point(x, y)
 
+        # Then
         self.assertTrue(p1 == p2)
 
 
     @given(x=st.integers(), y=st.integers())
     def test_not_equal(self, x, y):
+        # Given
         p1 = Point(x, y)
         p2 = Point(x + 1, y)
-        
+
+        # Then
         self.assertNotEqual(p1, p2)
         self.assertTrue(p1 != p2)
     
     @given(x=st.integers(), y=st.integers())
     def test_hash(self, x, y):
+        # Given
         p1 = Point(x, y)
         p2 = Point(x, y)
-    
+
+        # Then
         self.assertEqual(hash(p1), hash(p2))
 
     @given(x=st.integers(), y=st.integers())
