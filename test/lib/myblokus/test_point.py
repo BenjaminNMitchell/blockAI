@@ -1,4 +1,5 @@
 from block_ai.lib.myblokus.point import Point
+from block_ai.lib.myblokus import point
 
 import unittest
 
@@ -138,4 +139,53 @@ class PointTests(unittest.TestCase):
         # Then
         self.assertEqual(p_sum.x, x - a)
         self.assertEqual(p_sum.y, y - b)
+   
+    @given(x=st.integers(), y=st.integers())
+    def test_from_string(self, x, y):
+        # Given
+        p1 = Point(x, y)
 
+        # When
+        p2 = point.from_string(str(p1))
+        
+        # Then
+        self.assertEqual(p1, p2)
+
+    @given(x=st.integers(), y=st.integers())
+    def test_ident_transform(self, x, y):
+        # Given
+        p1 = Point(x, y)
+
+        # When
+        p2 = point.ident(p1)
+
+        # Then
+        self.assertEqual(p1, p2)
+
+
+    @given(x=st.integers(), y=st.integers())
+    def test_flip_transform(self, x, y):
+        # Given
+        p1 = Point(x, y)
+
+        # When
+        p2 = point.flip(p1)
+        p3 = point.flip(p2)
+
+        # Then
+        self.assertEqual(p1, p3)
+        self.assertEqual(p1.x, p2.x)
+        self.assertEqual(p1.y, -p2.y)
+
+    
+    @given(x=st.integers(), y=st.integers())
+    def test_rot90_transform(self, x, y):
+        # Given
+        p1 = Point(x, y)
+
+        # When
+        p2 = 
+        # Then
+        self.assertEqual(p1, p3)
+        self.assertEqual(p1.x, p2.x)
+        self.assertEqual(p1.y, -p2.y)

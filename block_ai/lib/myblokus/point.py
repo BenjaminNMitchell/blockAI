@@ -84,3 +84,27 @@ class Point:
     def __repr__(self):
         return str(self)
 
+def from_string(string):
+    """Construct a Point object from a string representation."""
+    return eval("Point" + string)
+ 
+def ident(point):
+    """Return a new Point object with the same coordinates."""
+    return Point(point.x, point.y)
+
+def flip(point):
+    """Return a new Point object reflexcted by the x axis."""
+    return Point(point.x, - point.y)
+
+def rot90(point):
+    """Return a new Point object rotated 90 degrees counter clockwise."""
+    return Point(point.y, -point.x)
+
+def rot180(point):
+    """Return a new Point object rotated 180 degrees counter clockwise."""
+    return rot90(rot90(point))
+
+def rot270(point):
+    """Return a new Point object rotated 270 degrees counter clockwise."""
+    return rot180(rot90(point))
+
