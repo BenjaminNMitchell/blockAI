@@ -9,22 +9,22 @@ class Orientation():
     def __init__(self, points):
         #  must be sorted for equality comparison
         
-        self.points = set(points)
+        self.points = tuple(points)
     
     def get_border_points(self):
         """Return all points adjacent to the orientation."""
 
-        return self.get_related_points("get_adjacent")
+        return self.__get_related_points("get_adjacent")
     
     def get_corner_points(self):
         """Return all points which only share a corner with this orientation."""
 
-        border_points = self.get_border_points()
+        border_points = set(self.get_border_points())
         played_point = {Point(-1, -1)} # point we played from
         invalid_corners = border_points | played_point 
-        return self.get_related_points("get_corners") - invalid_corners
+        return self.__get_related_points("get_corners") - invalid_corners
     
-    def get_related_points(self, func_name):
+    def __get_related_points(self, func_name):
         """Generate points related to this orientation."""
         logging.debug(func_name)       
         related_points = set()
@@ -57,8 +57,15 @@ class Orientation():
 
         return hash(self.points)
     
+    def __len__(self):
+        """Return the number of points in this orientation."""
+
+        return len(self.points)   
+
     def __lt__(self, other) -> bool:
         """Return true if this orientation has a smaller point false otherwise."""
+        if len(self) != len(other):
+            return len(self) < len(other)
 
         for a, b in zip(self.points, other.points):
             if a == b:
