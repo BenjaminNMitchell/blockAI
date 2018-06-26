@@ -12,17 +12,19 @@ As described in the Google Brain Papers on this topic
 This requires the pipenv package
 
 
-``` python
-# Adds a bash config file in ~/.config/block_ai by default
-# and sources it in your ~/.bash_profile
-bash setup.sh
-
+``` bash
 # install the pipenv package manager
-pip install pipenv
+$ pip install pipenv
 
 # Installs the python pcakages 
-pipenv install
+$ pipenv install
 
+
+```
+
+Running Tests:
+``` bash
+$ bash run_tests.sh
 ```
 
 <h2>Contributers:</h2>
