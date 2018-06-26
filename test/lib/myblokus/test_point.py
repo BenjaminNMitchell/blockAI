@@ -13,7 +13,11 @@ class PointTests(unittest.TestCase):
 
     def test_init_fails(self):
         with self.assertRaises(TypeError):
-            p = Point(None, None)
+            p = Point(None, 1)
+        
+        with self.assertRaises(TypeError):
+            p = Point(1, None)
+        
 
     def test_get_adjacent(self):
         # Given 
@@ -52,6 +56,17 @@ class PointTests(unittest.TestCase):
 
         # Then
         self.assertEqual(p_str, "(1, 1)")
+
+    def test_repr(self):
+
+        # Given
+        p = Point(1, 1)
+
+        # When
+        p_repr = repr(p)
+
+        # Then
+        self.assertEqual(p_repr, "(1, 1)")
 
     @given(x=st.integers(), y=st.integers())
     def test_equal(self, x, y):
@@ -92,11 +107,13 @@ class PointTests(unittest.TestCase):
         p5 = Point(x + 1, y + 1)
 
         # Then
+        self.assertTrue(p1 < p1)
         self.assertTrue(p1 < p2)
         self.assertTrue(p2 < p3)
         self.assertTrue(p3 < p4)
         self.assertTrue(p4 < p5)
 
+    
     
     @given(x=st.integers(), y=st.integers())
     def test_greater_than(self, x, y):
@@ -184,8 +201,49 @@ class PointTests(unittest.TestCase):
         p1 = Point(x, y)
 
         # When
-        p2 = 
+        p2 = point.rot90(p1)
+        
+        p = p1
+        for i in range(4):
+            p = point.rot90(p)
+
         # Then
-        self.assertEqual(p1, p3)
-        self.assertEqual(p1.x, p2.x)
+        self.assertEqual(p1.x, -p2.y)
+        self.assertEqual(p1.y, p2.x)
+        self.assertEqual(p1, p)
+
+
+    @given(x=st.integers(), y=st.integers())
+    def test_rot180_transform(self, x, y):
+        # Given
+        p1 = Point(x, y)
+
+        # When
+        p2 = point.rot180(p1)
+        
+        p = p1
+        for i in range(2):
+            p = point.rot180(p)
+
+        # Then
+        self.assertEqual(p1.x, -p2.x)
         self.assertEqual(p1.y, -p2.y)
+        self.assertEqual(p1, p)
+
+    @given(x=st.integers(), y=st.integers())
+    def test_rot270_transform(self, x, y):
+        # Given
+        p1 = Point(x, y)
+
+        # When
+        p2 = point.rot270(p1)
+        
+        p = p1
+        for i in range(4):
+            p = point.rot90(p)
+
+        # Then
+        self.assertEqual(p1.x, p2.y)
+        self.assertEqual(p1.y, -p2.x)
+        self.assertEqual(p1, p)
+
