@@ -26,16 +26,12 @@ class Orientation():
     
     def __get_related_points(self, func_name):
         """Generate points related to this orientation."""
-        logging.debug(func_name)       
+
         related_points = set()
         for point in self.points:
-            logging.debug("Base Point: %s", point)
             relatives = eval(f"point.{func_name}()")
-            logging.debug("Relatives: %s", relatives)
             valid_relatives = set(filter(lambda p: p not in self.points, relatives))
-            logging.debug("valid_related: %s", valid_relatives)
             related_points = related_points | valid_relatives
-            logging.debug("related_points: %s\n\n", related_points)
         return related_points
     
     def is_valid(self) -> bool:
@@ -75,14 +71,15 @@ class Orientation():
     def __eq__(self, other) -> bool:
         """Returns true if this orientation contains all the same points as the other."""
 
-        if len(self.points) != len(other.points):
+        if len(self) != len(other):
             return False
         for a, b in zip(self.points, other.points):
             if a != b:
-                False
+                return False
         return True
 
     def __str__(self) -> str:
         """Return a string representation of this oriention."""
 
-        return ", ".join([str(p) for p in self.points])
+        # return ", ".join([str(p) for p in self.points])
+        return str(self.points)
