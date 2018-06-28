@@ -83,3 +83,10 @@ class Orientation():
 
         # return ", ".join([str(p) for p in self.points])
         return str(self.points)
+
+    def __repr__(self) -> str:
+        """Return a string representation of this oriention."""
+
+        # return ", ".join([str(p) for p in self.points])
+        return str(self)
+        

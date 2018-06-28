@@ -146,3 +146,14 @@ class OrientationPoints(unittest.TestCase):
         # Then
         expected = "((0, 0), (1, 0), (1, 1))"
         self.assertEqual(actual, expected)
+
+    def test_repr(self):
+        # Given
+        o = Orientation(self.points)
+
+        # When
+        actual = repr(o)
+
+        # Then
+        expected = "((0, 0), (1, 0), (1, 1))"
+        self.assertEqual(actual, expected)
