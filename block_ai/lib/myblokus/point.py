@@ -82,7 +82,7 @@ class Point:
         return f"({self.x}, {self.y})"
 
     def __repr__(self):
-        return str(self)
+        return f"Point{str(self)}"
 
 def from_string(string):
     """Construct a Point object from a string representation."""

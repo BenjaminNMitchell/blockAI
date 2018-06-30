@@ -15,14 +15,15 @@ class Piece:
         self.orientations = sorted(self.orientations)
 
     def add_all_orientations(self, o_prime):
-        corners = o_prime.get_corner_points()
+        self.orientations.add(o_prime)
+        corners = o_prime.get_piece_corners()
         for corner in corners:
             orientation = self.shift_orientation(o_prime, corner)
             self.add_rotations(orientation)
 
     def shift_orientation(self, orientation, corner_point):
         """This doesn't work this link may hold the answer https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d."""
-        c_prime = Point(-1, -1)
+        c_prime = Point(0, 0)
         diff = c_prime - corner_point
         return Orientation([diff + p for p in orientation.points])
 
@@ -39,20 +40,22 @@ class Piece:
             yield lambda x: f(r(x))
 
     def get_orientation_prime(self):
-        for o in self.orientations:
-            # will just return the first one
-            return o
+        return min(self.orientations)
 
     def __eq__(self, other):
-        if len(self.orientations) != len(other.orientations):
+        if isinstance(other, Piece):
+            o_prime_1 = self.get_orientation_prime()
+            o_prime_2 = other.get_orientation_prime()
+            return o_prime_1 == o_prime_2
+        else:
             return False
-        for o in self.orientations:
-            if o not in other.orientations:
-                return False
-        return True
 
     def __ne__(self, other):
         return not self == other
 
     def __str__(self):
         return "\n".join([str(o) for o in self.orientations])
+
+    def __repr__(self):
+        inner = ",\n".join([repr(o) for o in self.orientations])
+        return f"Piece({inner})"

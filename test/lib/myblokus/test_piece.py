@@ -19,17 +19,17 @@ class PieceTests(unittest.TestCase):
 
         # Then
         self.maxDiff = None
-        expected = [
-                    Orientation([Point(0, 0), Point(1, 0), Point(1, 1)]),
-                    Orientation([Point(0, 0), Point(0, 1), Point(-1, 1)]),
-                    Orientation([Point(0, 0), Point(0, 1), Point(1, 1)]),
-                    Orientation([Point(0, 0), Point(1, 0), Point(1, -1)]),
-                    Orientation([Point(0, 0), Point(1, 0), Point(0, 1)])
-              ]
 
+        expected = [
+            Orientation((Point(-1, 1), Point(0, 0), Point(0, 1))),
+            Orientation((Point(0, 0), Point(0, 1), Point(1, 0))),
+            Orientation((Point(0, 0), Point(0, 1), Point(1, 1))),
+            Orientation((Point(0, 0), Point(1, -1), Point(1, 0))),
+            Orientation((Point(0, 0), Point(1, 0), Point(1, 1)))
+        ]
         self.assertEqual(actual, expected)
 
-   def test_shift_orientation(self):
+    def test_get_orientation_prime(self):
         # Given
         points = [Point(0, 0),
                   Point(1 ,0),
@@ -38,6 +38,57 @@ class PieceTests(unittest.TestCase):
         piece = Piece(points)
 
         # When
-        corner_point = Point(2, -1)
-        
+        actual = piece.get_orientation_prime()
 
+        # Then
+        expected = Orientation((
+                                Point(-1, 1),
+                                Point(0, 0),
+                                Point(0, 1)
+        ))
+        self.assertEqual(actual, expected)
+
+    def test_equals(self):
+        # Given
+        points = [Point(0, 0),
+                  Point(1 ,0),
+                  Point(1, 1)]
+
+        p1 = Piece(points)
+        p2 = Piece(points)
+
+        # Then
+        self.assertEqual(p1, p2)
+
+    def test_equals_different_points(self):
+        # Given
+        points1 = [Point(0, 0),
+                  Point(1 ,0),
+                  Point(1, 1)]
+
+        points2 = [Point(0, 0),
+                  Point(1 ,0),
+                  Point(2, 0)]
+
+        p1 = Piece(points1)
+        p2 = Piece(points2)
+
+        # Then
+        self.assertFalse(p1 == p2)
+
+    def test_equals_wrong_object(self):
+        # Given
+        piece = Piece([Point(0, 0)])
+
+        self.assertNotEqual(piece, 1)
+
+    def test_str(self):
+        # Given
+        piece = Piece([Point(0, 0)])
+
+        # When
+        actual = str(piece)
+        expected = "(Point(0, 0))"
+
+        # Then
+        self.assertEqual(actual, expected)

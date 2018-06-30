@@ -8,14 +8,25 @@ class Orientation():
 
     def __init__(self, points):
         #  must be sorted for equality comparison
-        
-        self.points = tuple(points)
-    
+
+        self.points = tuple(sorted(points))
+
     def get_border_points(self):
         """Return all points adjacent to the orientation."""
 
         return self.__get_related_points("get_adjacent")
-    
+
+    def get_piece_corners(self):
+        corner_points = set()
+        corners = self.get_corner_points()
+
+        for c in corners:
+            for c_adj in c.get_corners():
+                if c_adj in self.points:
+                    corner_points.add(c_adj)
+
+        return sorted(corner_points)
+
     def get_corner_points(self):
         """Return all points which only share a corner with this orientation."""
 
@@ -23,7 +34,7 @@ class Orientation():
         played_point = {Point(-1, -1)} # point we played from
         invalid_corners = border_points | played_point 
         return self.__get_related_points("get_corners") - invalid_corners
-    
+
     def __get_related_points(self, func_name):
         """Generate points related to this orientation."""
 
@@ -33,7 +44,7 @@ class Orientation():
             valid_relatives = set(filter(lambda p: p not in self.points, relatives))
             related_points = related_points | valid_relatives
         return related_points
-    
+
     def is_valid(self) -> bool:
         """Return true if this is a valid orientation and false otherwise."""
 
@@ -52,7 +63,7 @@ class Orientation():
         """Return a hash value for this orientation."""
 
         return hash(self.points)
-    
+
     def __len__(self):
         """Return the number of points in this orientation."""
 
@@ -60,6 +71,7 @@ class Orientation():
 
     def __lt__(self, other) -> bool:
         """Return true if this orientation has a smaller point false otherwise."""
+
         if len(self) != len(other):
             return len(self) < len(other)
 
@@ -88,5 +100,5 @@ class Orientation():
         """Return a string representation of this oriention."""
 
         # return ", ".join([str(p) for p in self.points])
-        return str(self)
-        
+        return f"Orientation({str(self)})"
+

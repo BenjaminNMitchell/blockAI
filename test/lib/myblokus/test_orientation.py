@@ -34,6 +34,11 @@ class OrientationPoints(unittest.TestCase):
                     Point(2, 1)}
         self.assertEqual(actual, expected)
 
+    def test_get_piece_corners(self):
+        o = Orientation([Point(0, 0), Point(1, 0), Point(2, 0)])
+        actual = o.get_piece_corners()
+        expected = [Point(0, 0), Point(2, 0)]
+        self.assertEqual(actual, expected)
 
     def test_get_corner_points(self):
         # Given
@@ -144,7 +149,7 @@ class OrientationPoints(unittest.TestCase):
         actual = str(o)
 
         # Then
-        expected = "((0, 0), (1, 0), (1, 1))"
+        expected = "(Point(0, 0), Point(1, 0), Point(1, 1))"
         self.assertEqual(actual, expected)
 
     def test_repr(self):
@@ -155,5 +160,5 @@ class OrientationPoints(unittest.TestCase):
         actual = repr(o)
 
         # Then
-        expected = "((0, 0), (1, 0), (1, 1))"
+        expected = "Orientation((Point(0, 0), Point(1, 0), Point(1, 1)))"
         self.assertEqual(actual, expected)

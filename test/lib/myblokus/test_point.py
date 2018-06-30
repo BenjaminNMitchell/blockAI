@@ -66,7 +66,7 @@ class PointTests(unittest.TestCase):
         p_repr = repr(p)
 
         # Then
-        self.assertEqual(p_repr, "(1, 1)")
+        self.assertEqual(p_repr, "Point(1, 1)")
 
     @given(x=st.integers(), y=st.integers())
     def test_equal(self, x, y):
