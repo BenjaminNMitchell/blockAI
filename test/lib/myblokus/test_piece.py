@@ -88,7 +88,19 @@ class PieceTests(unittest.TestCase):
 
         # When
         actual = str(piece)
-        expected = "(Point(0, 0))"
+        expected = "(Point(0, 0),)"
 
         # Then
         self.assertEqual(actual, expected)
+
+    def test_repr(self):
+        # Given
+        piece = Piece([Point(0, 0)])
+
+        # When
+        actual = repr(piece)
+        expected = "Piece([Orientation(Point(0, 0),)]"
+
+        # Then
+        self.assertEqual(actual, expected)
+

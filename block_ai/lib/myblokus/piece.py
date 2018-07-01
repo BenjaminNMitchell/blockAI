@@ -5,6 +5,7 @@ from block_ai.lib.myblokus.point import Point
 from block_ai.lib.myblokus import point
 
 import itertools
+import logging
 
 class Piece:
 
@@ -57,5 +58,4 @@ class Piece:
         return "\n".join([str(o) for o in self.orientations])
 
     def __repr__(self):
-        inner = ",\n".join([repr(o) for o in self.orientations])
-        return f"Piece({inner})"
+        return f"Piece({str(self.orientations)})"
