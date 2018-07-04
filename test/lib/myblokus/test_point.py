@@ -7,10 +7,7 @@ from hypothesis import given
 import hypothesis.strategies as st
 
 class PointTests(unittest.TestCase):
-
-    def test_init(self):
-        p = Point(1, 1)
-
+`
     def test_init_fails(self):
         with self.assertRaises(TypeError):
             p = Point(None, 1)
