@@ -23,7 +23,6 @@ class Piece:
             self.add_rotations(orientation)
 
     def shift_orientation(self, orientation, corner_point):
-        """This doesn't work this link may hold the answer https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d."""
         c_prime = Point(0, 0)
         diff = c_prime - corner_point
         return Orientation([diff + p for p in orientation.points])
