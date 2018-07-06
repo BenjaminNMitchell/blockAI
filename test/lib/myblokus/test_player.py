@@ -1,13 +1,18 @@
-from block_ai.lib.myblokus.piece import Piece
-from block_ai.lib.myblokus.piece import Player
-from block_ai.lib.myblokus.orientation import Orientation
+from block_ai.lib.myblokus.player import Player
 from block_ai.lib.myblokus.point import Point
-from block_ai.lib.myblokus import point
 
 import unittest
 import hypothesis
 
 
 class PlayerTests(unittest.TestCase):
-    #TODO implement player tests
-    pass
+
+    def test_add_move(self):
+        # Given
+        player = Player(1)
+
+        # When
+        player.add_move([Point(0, 0)])
+
+        # Then
+        self.assertEqual(len(player.valid_moves), 1)

@@ -1,18 +1,14 @@
-""" Thid class defines a blokus board as a 2 dimensional array. """
+"""This class defines a blokus board."""
 
-from block_ai.lib.myblokus import point
-from block_ai.lib.myblokus.piece import Piece
-from block_ai.lib.myblokus.point import Point
-from block_ai.lib.myblokus.orientation import Orientation
-from block_ai.lib.myblokus.corner import Corner
+from .piece import Piece
+from .point import Point
+from .player import Player
+from .orientation import Orientation
+from .corner import Corner
 
-import itertools
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import normalize
 
-import logging
-logging.basicConfig(level=logging.DEBUG)
 
 class Board:
     SIDE_LENGTH = 20
@@ -39,19 +35,15 @@ class Board:
         player = self.get_player(player_id)
         rotation = corner.get_rotation()
         for piece in player.pieces:
-            logging.debug("Piece %s", piece)
             for orientation in piece.orientations:
-                logging.debug("Orientation %s", orientation)
                 points = [corner.p2 + rotation(p) for p in orientation.points]
-                logging.debug("Points: %s", points)
+
                 if not self.is_orientation_valid(points):
-                    logging.debug("Board invalid")
                     continue
 
                 if not player.is_orientation_valid(points):
-                    logging.debug("Board invalid")
                     continue
-                logging.debug("Adding Points\n\n")
+
                 player.add_move(Orientation(points))
 
 
