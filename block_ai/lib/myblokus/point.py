@@ -78,6 +78,9 @@ class Point:
     def __sub__(self, other):
         return Point(self.x - other.x, self.y - other.y)
 
+    def copy(self):
+        return Point(self.x, self.y)
+
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"
 

@@ -7,7 +7,7 @@ from hypothesis import given
 import hypothesis.strategies as st
 
 class PointTests(unittest.TestCase):
-`
+
     def test_init_fails(self):
         with self.assertRaises(TypeError):
             p = Point(None, 1)
@@ -15,7 +15,6 @@ class PointTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             p = Point(1, None)
         
-
     def test_get_adjacent(self):
         # Given 
         p = Point(1, 1)
@@ -164,6 +163,18 @@ class PointTests(unittest.TestCase):
         
         # Then
         self.assertEqual(p1, p2)
+
+    def test_copy(self):
+        # Given
+        original = Point(0, 0)
+        
+        # When
+        copy = original.copy()
+
+        # Then
+        self.assertFalse(copy is original)
+        self.assertEqual(copy.x, original.x)
+        self.assertEqual(copy.y, original.y)
 
     @given(x=st.integers(), y=st.integers())
     def test_ident_transform(self, x, y):
