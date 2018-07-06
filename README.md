@@ -19,6 +19,9 @@ $ pip install pipenv
 # Installs the python pcakages 
 $ pipenv install
 
+# for OSX users set
+# Assuming that ~/.matplotlib exists
+echo "backend: TkAgg" >> ~/.matplotlib/matplotlibrc
 
 ```
 
