@@ -11,6 +11,7 @@ name = "pypi"
 numpy = "*"
 colorama = "*"
 hypothesis = "*"
+matplotlib = "*"
 
 
 [dev-packages]
