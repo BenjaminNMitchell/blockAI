@@ -59,3 +59,23 @@ class Piece:
 
     def __repr__(self):
         return f"Piece({str(self.orientations)})"
+
+p1 = Piece([Point(0, 0)])
+p2 = Piece([Point(0, 0), Point(0, 1)])
+p3_1 = Piece([Point(0, 0), Point(0, 1), Point(0, 2)])
+p3_2 = Piece([Point(0, 0), Point(0, 1), Point(1, 1)])
+p4_1 = Piece([Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1)])
+p4_2 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0)])
+p4_3 = Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1)])
+p4_4 = Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 0)]
+# TODO implement remaining Pieces and add to gen_pieces
+
+all_pieces = [p1,
+            p2,
+            p3_1, p3_2,
+            p4_1, p4_2, p4_3, p4_4]
+
+
+def gen_pieces():
+    """ Generates the pieces available to a player at the start of a game """
+    return all_pieces
