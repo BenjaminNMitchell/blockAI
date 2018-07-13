@@ -1,5 +1,6 @@
 from block_ai.lib.myblokus.orientation import Orientation
 from block_ai.lib.myblokus.point import Point
+from block_ai.lib.myblokus.corner import Corner
 
 import unittest
 from hypothesis import given
@@ -34,24 +35,20 @@ class OrientationPoints(unittest.TestCase):
                     Point(2, 1)}
         self.assertEqual(actual, expected)
 
-    def test_get_piece_corners(self):
-        o = Orientation([Point(0, 0), Point(1, 0), Point(2, 0)])
-        actual = o.get_piece_corners()
-        expected = [Point(0, 0), Point(2, 0)]
-        self.assertEqual(actual, expected)
-
-    def test_get_corner_points(self):
+    def test_get_corners(self):
         # Given
         o = Orientation(self.points)
 
         # When
-        actual = o.get_corner_points()
+        actual = o.get_corners()
 
         # Then
-        expected = {Point(-1, 1), 
-                    Point(0, 2),
-                    Point(2, -1),
-                    Point(2, 2)}
+        expected = {
+            Corner(Point(0, 0), Point(-1, 1)),
+            Corner(Point(1, 1), Point(0, 2)),
+            Corner(Point(1, 0), Point(2, -1)),
+            Corner(Point(1, 1), Point(2, 2))
+        }
         self.assertEqual(actual, expected)
 
     def test_is_valid(self):

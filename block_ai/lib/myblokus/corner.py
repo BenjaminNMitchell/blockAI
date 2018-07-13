@@ -34,3 +34,25 @@ class Corner:
         else:
             return point.rot180
 
+    def __repr__(self):
+        return f"Corner\nP1: {self.p1}\nP2: {self.p2}"
+
+    def __str__(self):
+        return f"Corner\nP1: {self.p1}\nP2: {self.p2}"
+
+    def __eq__(self, other):
+        if not isinstance(other, Corner):
+            raise TypeError(f"Cannot use operator = on Point and {type(other)}")
+        return self.p1 == other.p1 and self.p2 == other.p2
+
+    def __lt__(self, other):
+        if not isinstance(other, Corner):
+            raise TypeError(f"Cannot use operator = on Point and {type(other)}")
+        
+        if self.p1 == other.p1:
+            return self.p2 < other.p2
+        else:
+            return self.p1 < other.p1
+
+    def __hash__(self):
+        return hash((self.p1, self.p2))

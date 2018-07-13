@@ -1,6 +1,7 @@
 """This class defines a blokus piece as a collection of orientations."""
 
 from .orientation import Orientation
+from .corner import Corner
 from .point import Point
 from . import point
 
@@ -17,14 +18,14 @@ class Piece:
 
     def add_all_orientations(self, o_prime):
         self.orientations.add(o_prime)
-        corners = o_prime.get_piece_corners()
+        corners = o_prime.get_corners()
         for corner in corners:
             orientation = self.shift_orientation(o_prime, corner)
             self.add_rotations(orientation)
 
-    def shift_orientation(self, orientation, corner_point):
-        c_prime = Point(0, 0)
-        diff = c_prime - corner_point
+    def shift_orientation(self, orientation, corner):
+        c_prime = Corner(Point(0, 0), Point(-1, -1))
+        diff = c_prime.p1 - corner.p1
         return Orientation([diff + p for p in orientation.points])
 
     def add_rotations(self, orientation):
