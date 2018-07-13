@@ -11,4 +11,4 @@ class PlayerBoard(unittest.TestCase):
         b = Board()
 
         # Then
-        self.assertEqual(len(b.players[0].valid_moves), 15)
+        self.assertEqual(len(b.players[0].valid_moves), 53)

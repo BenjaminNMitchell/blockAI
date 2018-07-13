@@ -35,7 +35,8 @@ class Corner:
             return point.rot180
 
     def __repr__(self):
-        return f"Corner\nP1: {self.p1}\nP2: {self.p2}"
+        
+        return f"Corner(p1={repr(self.p1)}, p2={repr(self.p2)})"
 
     def __str__(self):
         return f"Corner\nP1: {self.p1}\nP2: {self.p2}"
