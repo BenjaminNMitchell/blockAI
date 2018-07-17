@@ -28,9 +28,9 @@ class Corner:
         if self.diff == Point(1, 1):
             return point.ident
         elif self.diff == Point(-1, 1):
-            return point.rot90
-        elif self.diff == Point(1, -1):
             return point.rot270
+        elif self.diff == Point(1, -1):
+            return point.rot90
         else:
             return point.rot180
 
