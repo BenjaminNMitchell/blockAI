@@ -60,38 +60,32 @@ class Piece:
     def __repr__(self):
         return f"Piece({str(self.orientations)})"
 
+            
 def gen_pieces():
     """Generates the pieces available to a player at the start of a game"""
-    # Numbered according to graphic included in
-    p1 = Piece([Point(0, 0)])
 
-    p2 = Piece([Point(0, 0), Point(1, 0)])
-
-    p3 = Piece([Point(0, 0), Point(1, 0), Point(2, 0)])
-    p4 = Piece([Point(0, 0), Point(1, 0), Point(1, 1)])
-
-    p5 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0)])
-    p6 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1)])
-    p7 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(1, 1)])
-    p8 = Piece([Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1)])
-    p9 = Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1)])
-
-    p10 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(4, 0)])
-    p11 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(3, 1)])
-    p15 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(2, 1)])
-    p12 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1), Point(3, 1)])
-    p17 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1), Point(2, 2)])
-    p16 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(1, 1), Point(1, 2)])
-    p13 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(1, 1), Point(2, 1)])
-    p18 = Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1), Point(2, 2)])
-    p20 = Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1), Point(1, 2)])
-    p21 = Piece([Point(0, 1), Point(1, 1), Point(1, 2), Point(1, 0), Point(2, 1)])
-    p14 = Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(0, 1), Point(2, 1)])
-    p19 = Piece([Point(0, 0), Point(0, 1), Point(1, 1), Point(2, 1), Point(2, 2)])
-
-    return [p1,
-            p2,
-            p3, p4,
-            p5, p6, p7, p8, p9,
-            p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21
-           ]
+    pieces = {
+        'p1': Piece([Point(0, 0)]),
+        'p2': Piece([Point(0, 0), Point(0, 1)]),
+        'p3': Piece([Point(0, 0), Point(0, 1), Point(0, 2)]),
+        'p4': Piece([Point(0, 0), Point(0, 1), Point(1, 1)]),
+        'p5': Piece([Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1)]),
+        'p6': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0)]),
+        'p7': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1)]),
+        'p8': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 0)]),
+        'p9': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1)]),
+        'p10': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(4, 0)]),
+        'p11': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(3, 1)]),
+        'p12': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1), Point(3, 1)]),
+        'p13': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(1, 1), Point(2, 1)]),
+        'p14': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(0, 1), Point(2, 1)]),
+        'p15': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(2, 1)]),
+        'p16': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(1, 1), Point(1, 2)]),
+        'p17': Piece([Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1), Point(2, 2)]),
+        'p18': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1), Point(2, 2)]),
+        'p19': Piece([Point(0, 0), Point(0, 1), Point(1, 1), Point(2, 1), Point(2, 2)]),
+        'p20': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1), Point(1, 2)]),
+        'p21': Piece([Point(0, 1), Point(1, 1), Point(1, 2), Point(1, 0), Point(2, 1)])
+    }
+    
+    return pieces
