@@ -1,6 +1,13 @@
 """A game of Blokus."""
 
+import logging
+from .player import Player
+from .piece import gen_pieces
 from .board import Board
+from .corner import Corner
+from .point import Point
+from .orientation import Orientation
+from .move import Move
 
 class Game:
 

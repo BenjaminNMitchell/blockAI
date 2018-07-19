@@ -1,5 +1,9 @@
-from .game import Game
+import logging
+import itertools
+
+from .game import Game, GameEnd
 from .agent import RandomAgent
+
 
 class GameEngine:
     

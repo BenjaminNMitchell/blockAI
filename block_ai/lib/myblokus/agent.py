@@ -1,3 +1,8 @@
+"""This class defines an agent for the Blokus Game"""
+
+import random
+
+
 class Agent:
 
     def __init__(self, player_id):

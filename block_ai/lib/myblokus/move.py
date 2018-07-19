@@ -1,3 +1,5 @@
+"""This Class defines a move in the Game Blokus."""
+
 class Move:
     
     def __init__(self, orientation, player_id, piece_id, corner):

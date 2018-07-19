@@ -1,5 +1,8 @@
 """Valid Moves store."""
 
+import itertools
+
+
 class ValidMoves:
     
     def __init__(self):

@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
 class BoardView:
 
     def __init__(self):

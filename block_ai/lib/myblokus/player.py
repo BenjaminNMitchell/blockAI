@@ -4,6 +4,12 @@ This class defines a Player as a collection of.
 Pieces, valid moves, and invalid squares.
 """
 
+import logging
+from .piece import gen_pieces
+from .valid_moves import ValidMoves
+from .board import Board
+
+
 class Player:
 
     def __init__(self, player_id):
