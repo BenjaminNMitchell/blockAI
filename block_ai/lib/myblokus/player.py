@@ -32,8 +32,6 @@ class Player:
         logging.info("Clearing moves")
         self.clear_moves(move)
         
-       
-
     def add_border_points(self, move):
         invalid_points = move.orientation.get_border_points()
         invalid_points = list(filter(Board.on_board, invalid_points))
