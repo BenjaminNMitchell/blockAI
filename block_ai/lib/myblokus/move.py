@@ -3,10 +3,14 @@
 class Move:
     
     def __init__(self, orientation, player_id, piece_id, corner):
+
         self.orientation = orientation
         self.player_id = player_id
         self.piece_id = piece_id
         self.corner = corner
+
+        if corner.p2 not in orientation.points:
+            raise RuntimeError(f"Invalid move {str(self)}. Corner disconnected from pieces")
 
     def get_footprint(self):
         return [p for p in self.orientation.points]

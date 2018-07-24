@@ -2,7 +2,7 @@ import logging
 import itertools
 
 from .game import Game, GameEnd
-from .agent import RandomAgent
+from .agent import RandomAgent, GreedyAgent
 
 
 class GameEngine:
@@ -10,16 +10,15 @@ class GameEngine:
     def __init__(self, display=False):
         self.display = display
         self.game = Game()
-        self.players = [RandomAgent(i) for i in range(4)]
-        
-    
+        self.players = [RandomAgent(0), RandomAgent(1), RandomAgent(2), GreedyAgent(3)]
+
     def play_game(self):
         while True:
             try:
                 self.play_turn()
             except GameEnd:
                 break
-        
+
     def play_turn(self):
         try:
             m = self.get_move()

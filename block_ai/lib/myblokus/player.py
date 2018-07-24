@@ -72,6 +72,9 @@ class Player:
         except RuntimeError as err:
             logging.debug(err)
             return False
+    
+    def get_score(self):
+        return sum([len(p) for p in self.pieces.values()])
 
     def validate_move(self, move):
         if not self.has_piece(move.piece_id):

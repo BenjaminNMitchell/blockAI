@@ -17,17 +17,24 @@ class Game:
         self.board = Board()
         self.player_pointer = 0
         self.players = [Player(i) for i in range(4)]
+
+        self.init_corners = [Corner(Point(-1, -1), Point(0, 0)),
+                             Corner(Point(-1, 20), Point(0, 19)),
+                             Corner(Point(20, 20), Point(19, 19)),
+                             Corner(Point(20, -1), Point(19, 0))]
+
+        self.starting_points = [c.p1 for c in self.init_corners]
+
         self.set_starting_moves()
         self.move_history = []
-        logging.info("Player Pointer: %s", self.player_pointer)
-    
-    def set_starting_moves(self):
-        corners = [Corner(Point(-1, -1), Point(0, 0)),
-                   Corner(Point(-1, 20), Point(0, 19)),
-                   Corner(Point(20, 20), Point(19, 19)),
-                   Corner(Point(20, -1), Point(19, 0))]
 
-        for i, c in enumerate(corners):
+        logging.info("Player Pointer: %s", self.player_pointer)
+
+
+        
+
+    def set_starting_moves(self):
+        for i, c in enumerate(self.init_corners):
             self.add_corner_moves(c, i)
 
     def make_move(self, move):
@@ -86,7 +93,18 @@ class Game:
         
         if not self.board.are_squares_free(move.orientation):
             raise RuntimeError(f"Move: {move} squares are not free")
+        
+        play_point = move.corner.p1
+        logging.info("play point: %s", play_point)
 
+        if play_point not in self.starting_points:
+            logging.info("Not in starting_points")
+            val = self.board.check(play_point)
+            logging.info("Value at play_point: %s", val)
+            logging.info("Move player_id: %s", move.player_id)
+            if val != move.player_id:
+                raise RuntimeError(f"Move: {move} player: {move.player_id} does not occupy corner starting point {play_point}")
+                
         self.players[move.player_id].validate_move(move)
     
     
@@ -120,7 +138,10 @@ class Game:
             board = self.fill_bad_move(board, bad_move)
 
         board.display()
-
+    
+    def get_scores(self):
+        return { i: p.get_score() for i, p in enumerate(self.players)}
+            
     def fill_player_pov(self, board, player_id):
         board = board.copy()
         

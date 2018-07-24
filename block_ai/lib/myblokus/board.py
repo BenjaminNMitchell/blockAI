@@ -16,6 +16,7 @@ class Board:
         
     def are_squares_free(self, orientation):
         for p in orientation.points:
+            logging.info(f"Point: {p}")
             if not self.is_square_free(p):
                 return False
         return True

@@ -43,6 +43,9 @@ class Piece:
     def get_orientation_prime(self):
         return min(self.orientations)
 
+    def __len__(self):
+        return len(self.get_orientation_prime())
+
     def __eq__(self, other):
         if isinstance(other, Piece):
             o_prime_1 = self.get_orientation_prime()
