@@ -4,6 +4,6 @@ import unittest
 
 class AgentTests(unittest.TestCase):
 
-    def test():
+    def test(self):
         pass 
 

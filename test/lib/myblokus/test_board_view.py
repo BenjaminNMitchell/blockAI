@@ -4,5 +4,7 @@ import unittest
 
 class BoardViewTests(unittest.TestCase):
 
-    def test():
-        pass
+    def test(self):
+        # Given
+        bv = BoardView()
+

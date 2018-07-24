@@ -5,5 +5,5 @@ import unittest
 
 class GameEngineTests(unittest.TestCase):
 
-    def test():
-        pass 
+    def test(self):
+        ge = GameEngine()

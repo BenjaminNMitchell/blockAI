@@ -4,11 +4,11 @@ from .board_view import BoardView
 
 class Board:
     SIDE_LENGTH = 20
+    shape = (SIDE_LENGTH, SIDE_LENGTH)
     EMPTY = -1
     
     def __init__(self):
-        shape = (self.SIDE_LENGTH, self.SIDE_LENGTH)
-        self.board = np.full(shape, self.EMPTY)
+        self.board = np.full(self.shape, self.EMPTY)
         
     def update(self, move):
         for p in move.get_footprint():

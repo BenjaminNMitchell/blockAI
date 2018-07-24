@@ -9,6 +9,8 @@ from .point import Point
 from .orientation import Orientation
 from .move import Move
 
+from copy import deepcopy
+
 class Game:
 
     def __init__(self):
@@ -101,14 +103,13 @@ class Game:
                 logging.info("returning %s", ptr)
                 return ptr
         raise GameEnd("Game Over")
-        
-    
+
     def advance(self, player_id):
         return (player_id + 1) % 4
 
     def get_players_moves(self, player_id):
         return self.players[player_id].get_valid_moves()
-    
+
     def display(self, player_id=None, bad_move=None):
         board = self.board
         

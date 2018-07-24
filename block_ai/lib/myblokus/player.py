@@ -77,10 +77,10 @@ class Player:
         if not self.has_piece(move.piece_id):
             raise RuntimeError(f"Move {move} invalid. Already played {move.piece_id}")
 
-        new_points = {move.orientation.points}
-        overlap = self.invalid_points.intersection(new_points)
-        if len(overlap) > 0:
-            raise RuntimeError(f"Move {move} invalid. Includes invalid point {p}")
+        new_points = move.orientation.points
+        for p in move.get_footprint():
+            if p in self.invalid_points:
+                raise RuntimeError(f"Move {move} invalid. Includes invalid point {p}")
 
     def has_piece(self, piece_id):
         return piece_id in self.pieces
@@ -96,3 +96,4 @@ class Player:
 
     def get_valid_moves(self):
         return self.valid_moves.get_all()
+

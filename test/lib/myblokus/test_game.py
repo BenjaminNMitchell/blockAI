@@ -4,5 +4,8 @@ import unittest
 
 class GameTests(unittest.TestCase):
 
-    def test():
-        pass 
+    def test_game(self):
+        # Given
+
+        game = Game()
+

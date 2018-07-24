@@ -18,15 +18,15 @@ class Move:
                         player_id={self.player_id},
                         piece_id='{self.piece_id}',
                         corner={c_repr})"""
-    
+
+    def __key(self):
+        return (self.orientation, self.player_id)
+
     def __eq__(self, other):
-        for attr in ["orientation", "player_id", "piece_id", "corner"]:
-            if not eval(f"self.{attr} == other.{attr}"):
-                return False
-        return True
+        return self.__key() == other.__key()
 
     def __hash__(self):
-        return hash((self.orientation, self.player_id, self.piece_id, self.corner))
+        return hash(self.__key())
 
     def __str__(self):
         return f"Player ID: {self.player_id}\nPiece ID:{self.piece_id}\n{self.orientation}"
