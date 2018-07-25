@@ -14,5 +14,22 @@ class PlayerTests(unittest.TestCase):
         player.invalid_points.add(point)
 
         # Then
-
         self.assertTrue(point in player.invalid_points)
+
+    def test_update_same_player(self):
+        # Given
+        player = Player(0)
+        # When
+        # Then
+
+    
+    def test_get_score(self):
+        # Given
+        p = Player(0)
+
+        # When
+        score = p.get_score()
+
+        # Then
+        self.assertEqual(score, 89)
+        

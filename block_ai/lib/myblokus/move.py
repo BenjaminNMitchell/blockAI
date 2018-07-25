@@ -8,7 +8,7 @@ class Move:
         self.player_id = player_id
         self.piece_id = piece_id
         self.corner = corner
-
+    
         if corner.p2 not in orientation.points:
             raise RuntimeError(f"Invalid move {str(self)}. Corner disconnected from pieces")
 
