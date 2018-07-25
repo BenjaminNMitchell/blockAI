@@ -30,9 +30,6 @@ class Game:
 
         logging.info("Player Pointer: %s", self.player_pointer)
 
-
-        
-
     def set_starting_moves(self):
         for i, c in enumerate(self.init_corners):
             self.add_corner_moves(c, i)
@@ -75,11 +72,15 @@ class Game:
                 
                 new_o = Orientation([corner.p2 + rotation(p) for p in orientation.points])
                 logging.debug("New orientation: %s", new_o)
-                m = Move(new_o, player_id, piece_id, corner)
+                try:
+                    m = Move(new_o, player_id, piece_id, corner)
 
-                if self.is_move_valid(m):
-                    logging.debug("Adding Move: %s", m)
-                    player.add_move(m)
+                    if self.is_move_valid(m):
+                        logging.debug("Adding Move: %s", m)
+                        player.add_move(m)
+                except RuntimeError as err:
+                    err_msg = f"Move: {m} invalid: original_orientation: {orientation}"
+                    logging.exception(err_msg)
 
     def is_move_valid(self, move):
         try:

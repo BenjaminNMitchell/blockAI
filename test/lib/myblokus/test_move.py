@@ -60,28 +60,20 @@ class MoveTests(unittest.TestCase):
             Point(0, 2)
             )
 
-        corner3 = Corner(Point(2, 2), Point(1, 1))
-        piece_id4 = 'different'
         player_id5 = 1
 
         move1 = self.get_move()
         move2 = self.get_move(orientation=orientation2)
-        move3 = self.get_move(corner=corner3)
-        move4 = self.get_move(piece_id=piece_id4)
-        move5 = self.get_move(player_id=player_id5)
+        move3 = self.get_move(player_id=player_id3)
 
         # When
         h1 = hash(move1)
         h2 = hash(move2)
         h3 = hash(move3)
-        h4 = hash(move4)
-        h5 = hash(move5)
 
         # Then
         self.assertNotEqual(h1, h2)
         self.assertNotEqual(h1, h3)
-        self.assertNotEqual(h1, h4)
-        self.assertNotEqual(h1, h5)
 
     def test_eq(self):
         
@@ -91,18 +83,12 @@ class MoveTests(unittest.TestCase):
             Point(0, 2)
             ))
 
-        corner3 = Corner(Point(2, 2), Point(1, 1))
-        piece_id4 = 'different'
         player_id5 = 1
 
         move1 = self.get_move()
         move2 = self.get_move(orientation=orientation2)
-        move3 = self.get_move(corner=corner3)
-        move4 = self.get_move(piece_id=piece_id4)
-        move5 = self.get_move(player_id=player_id5)
+        move3 = self.get_move(player_id=player_id3)
 
         # Then
         self.assertNotEqual(move1, move2)
         self.assertNotEqual(move1, move3)
-        self.assertNotEqual(move1, move4)
-        self.assertNotEqual(move1, move5)

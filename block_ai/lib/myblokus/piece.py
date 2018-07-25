@@ -88,7 +88,7 @@ def gen_pieces():
         'p18': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1), Point(2, 2)]),
         'p19': Piece([Point(0, 0), Point(0, 1), Point(1, 1), Point(2, 1), Point(2, 2)]),
         'p20': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(2, 1), Point(1, 2)]),
-        'p21': Piece([Point(0, 1), Point(1, 1), Point(1, 2), Point(1, 0), Point(2, 1)])
+        'p21': Piece([Point(0, 0), Point(1, 0), Point(1, 1), Point(1, -1), Point(2, 0)])
     }
     
     return pieces
