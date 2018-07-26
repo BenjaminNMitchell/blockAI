@@ -46,7 +46,7 @@ class ValidMoves:
         return filter(lambda m: m.piece_id == piece_id, self.get_corner_moves(corner))
             
     def get_piece_moves(self, piece_id):
-        return filter(lambda m: m.piece_id == piece_id, self.get_valid_moves())
+        return filter(lambda m: m.piece_id == piece_id, self.get_all())
 
     def __len__(self):
         length = 0

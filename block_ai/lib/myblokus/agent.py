@@ -38,19 +38,35 @@ class HumanInput(Agent):
 
     def get_move(self, game):
         player = game.players[self.player_id]
+
+        piece = self.get_piece(player)
+
+        corner = self.get_piece(player, piece)
+
+        move = self.get_move(player, piece, corner)
+
+
+        return move
+    
+
+
+    def get_piece(self, player):
+        
         pieces = player.pieces
 
-        while True:
+        string = "Please Pick a piece from one of the following:\n"
+        string += "\n".join(pieces)
+        string += ": "
 
-            string = "Please Pick a piece from one of the following:\n"
-            string += "\n".join(pieces)
-            string += ": "
+        while True:
             piece = input(string)
             if piece in pieces:
-                break
+                return piece
             else:
                 print("Invalid piece please try again")
 
+    def get_corner(self, player, piece):
+        
         moves = player.valid_moves.get_piece_moves(piece)
         corners = list(filter(lambda m: m.corner, moves))
 
@@ -58,10 +74,11 @@ class HumanInput(Agent):
         strings = [f"{str(c.p2)}, {i}" for i, c in enumerate(corners)]
         string += "\n".join(strings)
 
-        corner = get_response(corners, string)
+        return pick_by_index(corners, string)
 
-        moves = player.valid_moves.get_corner_piece_moves()
 
+    def get_move(self, player, piece, corner):
+        moves = player.valid_moves.get_corner_piece_moves(corner, piece)
         for i, move in enumerate(moves):
             b = game.board.copy()
             print(f"Move {i}")
@@ -69,20 +86,23 @@ class HumanInput(Agent):
             b.display()
 
         string = f"pick a move in range [0, {len(moves)}]"
-        move = get_response(moves, string)
-        return move
+        return pick_by_index(moves, string)
 
-    def get_response(self, values, string):
+    def pick_by_index(self, values, string):
 
         while True:
 
-            resp = input(string)
             try:
-                index = int(resp)
+                index = self.get_index(string)
                 return values[index]
 
-            except Exception:
+            except IndexError:
                 print("Invalid Selection please try again.")
 
+    def get_index(self, string):
+        resp = input(string)
+        try:
+            return int(resp)
 
-    
+        except ValueError:
+            print("Not a valid int try again")
