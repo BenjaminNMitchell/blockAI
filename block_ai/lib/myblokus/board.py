@@ -1,6 +1,6 @@
 import numpy as np
 import logging
-from .board_view import BoardView
+#from .board_view import BoardView
 
 class Board:
     SIDE_LENGTH = 20

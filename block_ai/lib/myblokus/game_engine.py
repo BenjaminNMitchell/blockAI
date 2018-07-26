@@ -2,7 +2,7 @@ import logging
 import itertools
 
 from .game import Game, GameEnd
-from .agent import RandomAgent, GreedyAgent
+from .agent import RandomAgent, GreedyAgent, HumanInput
 
 
 class GameEngine:
@@ -10,7 +10,7 @@ class GameEngine:
     def __init__(self, display=False):
         self.display = display
         self.game = Game()
-        self.players = [RandomAgent(0), RandomAgent(1), RandomAgent(2), GreedyAgent(3)]
+        self.players = [RandomAgent(0), RandomAgent(1), RandomAgent(2), HumanInput(3)]
 
     def play_game(self):
         while True:
