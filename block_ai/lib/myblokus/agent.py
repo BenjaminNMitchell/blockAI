@@ -39,18 +39,16 @@ class HumanInput(Agent):
     def get_move(self, game):
         player = game.players[self.player_id]
 
-        piece = self.get_piece(player)
+        piece = self.pick_piece(player)
 
-        corner = self.get_piece(player, piece)
+        corner = self.pick_corner(player, piece)
 
-        move = self.get_move(player, piece, corner)
-
+        move = self.pick_move(game, piece, corner)
 
         return move
     
 
-
-    def get_piece(self, player):
+    def pick_piece(self, player):
         
         pieces = player.pieces
 
@@ -65,20 +63,20 @@ class HumanInput(Agent):
             else:
                 print("Invalid piece please try again")
 
-    def get_corner(self, player, piece):
+    def pick_corner(self, player, piece):
         
         moves = player.valid_moves.get_piece_moves(piece)
-        corners = list(filter(lambda m: m.corner, moves))
-
+        corners = list({move.corner for move in moves})
         string = "Please pick a corner from the following by its index"
         strings = [f"{str(c.p2)}, {i}" for i, c in enumerate(corners)]
         string += "\n".join(strings)
 
-        return pick_by_index(corners, string)
+        return self.pick_by_index(corners, string)
 
 
-    def get_move(self, player, piece, corner):
-        moves = player.valid_moves.get_corner_piece_moves(corner, piece)
+    def pick_move(self, game, piece, corner):
+        moves = game.players[self.player_id].valid_moves.get_corner_piece_moves(corner, piece)
+        moves = list(moves)
         for i, move in enumerate(moves):
             b = game.board.copy()
             print(f"Move {i}")
@@ -86,7 +84,7 @@ class HumanInput(Agent):
             b.display()
 
         string = f"pick a move in range [0, {len(moves)}]"
-        return pick_by_index(moves, string)
+        return self.pick_by_index(moves, string)
 
     def pick_by_index(self, values, string):
 
