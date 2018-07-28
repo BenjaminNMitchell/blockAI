@@ -1,33 +1,37 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import itertools
+
 
 class BoardView:
+    n = 20
+    my_dpi = 20
+    canvasSize = (n,n)
 
     def __init__(self):
-        pass
+        self.rects = {}
+        self.fig, self.ax = self.createCanvas(self.canvasSize)
     
-    def display(self, board):
-        n = 20
-        my_dpi = 20
-        canvasSize = (n,n)
-        fig,ax = self.createCanvas(canvasSize[0],canvasSize[1],my_dpi)
-        color = "black"
+        color = "#DCDCDC"
+        for row, col in itertools.product(range(self.n), range(self.n)):
+            rect = self.createRectangle((1,1),(col,row),self.canvasSize,color)
+            self.rects[(row, col)] = rect
+            self.ax.add_patch(rect)
 
-        for row in range(n):
-            for col in range(n):
-                color = self.get_color(board[row][col])
-                rect = self.createRectangle((1,1),(col,row),canvasSize,color)
-                ax.add_patch(rect)
-
-        plt.show()
-
-    def createCanvas(self, width,height,my_dpi):
+    def createCanvas(self, shape):
         fig,ax = plt.subplots(1)
-        fig.dpi= my_dpi
-        fig.set_size_inches(width,height)
+        fig.dpi= self.my_dpi
+        fig.set_size_inches(*shape)
         ax.set_xticks([])
         ax.set_yticks([])
-        return fig,ax
+        return fig, ax
+
+    def set_point_color(point, val):
+        color = self.get_color(val)
+        self.rects[(point.x, point.y)].setColor(color)
+
+    def display(self):
+        self.fig.show()
 
     def createRectangle(self, wh, xy, cwch, color="black"):
         """
