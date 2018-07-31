@@ -9,7 +9,8 @@ class Board:
     
     def __init__(self):
         self.board = np.full(self.shape, self.EMPTY)
-        
+        self.vis = BoardView()
+
     def update(self, move):
         for p in move.get_footprint():
             self.assign(p, move.player_id)
@@ -45,6 +46,7 @@ class Board:
         if self.on_board(point):
             logging.debug("assigning %s: %s", point, value)
             self.board[point.y][point.x] = value
+            self.vis.set_point_color(point, value)
         else:
             logging.debug("%s off board not assigning", point)
             
@@ -57,5 +59,4 @@ class Board:
         return b
 
     def display(self):
-        vis = BoardView()
-        vis.display(self.board)
+        self.vis.display()

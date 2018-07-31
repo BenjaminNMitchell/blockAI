@@ -26,9 +26,9 @@ class BoardView:
         ax.set_yticks([])
         return fig, ax
 
-    def set_point_color(point, val):
+    def set_point_color(self, point, val):
         color = self.get_color(val)
-        self.rects[(point.x, point.y)].setColor(color)
+        self.rects[(point.x, point.y)].set_color(color)
 
     def display(self):
         self.fig.show()
