@@ -13,7 +13,9 @@ class PieceTests(unittest.TestCase):
         # Given
         points = [Point(0, 0),
                   Point(1 ,0),
-                  Point(1, 1)]
+                  Point(2, 0),
+                  Point(3, 0),
+                  Point(3, 1)]
 
         # When
         actual = Piece(points).orientations
@@ -22,11 +24,21 @@ class PieceTests(unittest.TestCase):
         self.maxDiff = None
 
         expected = [
-            Orientation((Point(-1, 1), Point(0, 0), Point(0, 1))),
-            Orientation((Point(0, 0), Point(0, 1), Point(1, 0))),
-            Orientation((Point(0, 0), Point(0, 1), Point(1, 1))),
-            Orientation((Point(0, 0), Point(1, -1), Point(1, 0))),
-            Orientation((Point(0, 0), Point(1, 0), Point(1, 1)))
+            # C1
+            Orientation((Point(0, 0), Point(1, 0), Point(1, 1), Point(1, 2), Point(1, 3))),
+            Orientation((Point(0, 0), Point(0, 1), Point(1, 1), Point(2, 1), Point(3, 1))),
+            # C2
+            Orientation((Point(0, 0), Point(1, 0), Point(0, 1), Point(0, 2), Point(0, 3))),
+            Orientation((Point(0, 0), Point(0, 1), Point(1, 0), Point(2, 0), Point(3, 0))),
+            # C3
+            Orientation((Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(3, -1))),
+            Orientation((Point(0, 0), Point(0, 1), Point(0, 2), Point(0, 3), Point(-1, 3))),
+            # C4
+            Orientation((Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0), Point(3, 1))),
+            Orientation((Point(0, 0), Point(0, 1), Point(0, 2), Point(0, 3), Point(1, 3))),
+            # C5
+            Orientation((Point(0, 0), Point(1, 0), Point(1, -1), Point(1, -2), Point(1, -3))),
+            Orientation((Point(0, 0), Point(0, 1), Point(-1, 1), Point(-2, 1), Point(-3, 1))),
         ]
         self.assertEqual(actual, expected)
 
