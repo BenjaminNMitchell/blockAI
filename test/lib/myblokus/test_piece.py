@@ -23,7 +23,7 @@ class PieceTests(unittest.TestCase):
         # Then
         self.maxDiff = None
 
-        expected = [
+        expected = {
             # C1
             Orientation((Point(0, 0), Point(1, 0), Point(1, 1), Point(1, 2), Point(1, 3))),
             Orientation((Point(0, 0), Point(0, 1), Point(1, 1), Point(2, 1), Point(3, 1))),
@@ -38,9 +38,10 @@ class PieceTests(unittest.TestCase):
             Orientation((Point(0, 0), Point(0, 1), Point(0, 2), Point(0, 3), Point(1, 3))),
             # C5
             Orientation((Point(0, 0), Point(1, 0), Point(1, -1), Point(1, -2), Point(1, -3))),
-            Orientation((Point(0, 0), Point(0, 1), Point(-1, 1), Point(-2, 1), Point(-3, 1))),
-        ]
-        self.assertEqual(actual, expected)
+            Orientation((Point(0, 0), Point(0, 1), Point(-1, 1), Point(-2, 1), Point(-3, 1)))
+        }
+
+        self.assertEqual(sorted(actual), sorted(expected))
 
     def test_get_orientation_prime(self):
         # Given
@@ -106,13 +107,3 @@ class PieceTests(unittest.TestCase):
         # Then
         self.assertEqual(actual, expected)
 
-    def test_repr(self):
-        # Given
-        piece = Piece([Point(0, 0)])
-
-        # When
-        actual = repr(piece)
-        expected = "Piece([Orientation((Point(0, 0),))])"
-
-        # Then
-        self.assertEqual(actual, expected)

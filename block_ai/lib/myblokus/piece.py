@@ -8,37 +8,31 @@ from . import point
 import itertools
 import logging
 
+
 class Piece:
 
     def __init__(self, points):
         self.orientations = set()
         o_prime = Orientation(points)
         self.add_all_orientations(o_prime)
-        self.orientations = sorted(self.orientations)
 
     def add_all_orientations(self, o_prime):
-        self.orientations.add(o_prime)
+        self.add_both(o_prime)
         corners = o_prime.get_corners()
         for corner in corners:
             orientation = self.shift_orientation(o_prime, corner)
-            self.add_rotations(orientation)
+            rot = corner.get_rotation()
+            orientation = Orientation(tuple([rot(point) for point in orientation.points]))
+            self.add_both(orientation)
+
+    def add_both(self, orientation):
+        self.orientations.add(orientation)
+        self.orientations.add(orientation.flip())
 
     def shift_orientation(self, orientation, corner):
         c_prime = Corner(Point(0, 0), Point(-1, -1))
         diff = c_prime.p1 - corner.p1
         return Orientation([diff + p for p in orientation.points])
-
-    def add_rotations(self, orientation):
-        for transform in self.gen_transforms():
-            orientation = Orientation(tuple([transform(point) for point in orientation.points]))
-            if orientation.is_valid():
-                self.orientations.add(orientation)
-
-    def gen_transforms(self):
-        flips = [point.ident, point.flip]
-        rots = [point.ident, point.rot90, point.rot180, point.rot270]
-        for f, r in itertools.product(flips, rots):
-            yield lambda x: f(r(x))
 
     def get_orientation_prime(self):
         return min(self.orientations)
@@ -59,10 +53,6 @@ class Piece:
 
     def __str__(self):
         return "\n".join([str(o) for o in self.orientations])
-
-    def __repr__(self):
-        return f"Piece({str(self.orientations)})"
-
             
 def gen_pieces():
     """Generates the pieces available to a player at the start of a game"""

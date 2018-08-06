@@ -64,6 +64,10 @@ class Orientation():
                 return False
         return True
 
+    def flip(self):
+        new_points = [Point(p.y, p.x) for p in self.points]
+        return Orientation(new_points)
+ 
     def __hash__(self) -> int:
         """Return a hash value for this orientation."""
 
