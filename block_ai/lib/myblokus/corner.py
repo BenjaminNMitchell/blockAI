@@ -26,7 +26,20 @@ class Corner:
            
     def get_rotation(self):
         if self.diff == Point(1, 1):
+            return point.ident
+
+        elif self.diff == Point(-1, 1):
+            return point.rot90
+
+        elif self.diff == Point(1, -1):
+            return point.rot270
+
+        else:
             return point.rot180
+
+    def get_rotation_game(self):
+        if self.diff == Point(1, 1):
+            return point.ident
 
         elif self.diff == Point(-1, 1):
             return point.rot270
@@ -35,7 +48,7 @@ class Corner:
             return point.rot90
 
         else:
-            return point.ident
+            return point.rot180
 
     def __repr__(self):
         

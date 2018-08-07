@@ -34,7 +34,7 @@ class CornerTests(unittest.TestCase):
             vector = rot(c.diff)
 
             # Then
-            self.assertEqual(vector, Point(-1, -1))
+            self.assertEqual(vector, Point(1, 1))
 
     def test_eq_true(self):
         # Given

@@ -22,7 +22,7 @@ class Piece:
         for corner in corners:
             orientation = self.shift_orientation(o_prime, corner)
             rot = corner.get_rotation()
-            orientation = Orientation(tuple([rot(point) for point in orientation.points]))
+            orientation = Orientation(tuple([point.rot180(rot(p)) for p in orientation.points]))
             self.add_both(orientation)
 
     def add_both(self, orientation):

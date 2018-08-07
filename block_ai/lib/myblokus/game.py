@@ -58,7 +58,7 @@ class Game:
  
     def add_corner_moves(self, corner, player_id):
         player = self.players[player_id]
-        rotation = corner.get_rotation()
+        rotation = corner.get_rotation_game()
         
         if not Board.on_board(corner.p2):
             logging.info("Corner %s is off board", corner)
