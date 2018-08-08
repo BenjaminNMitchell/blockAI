@@ -13,7 +13,7 @@ from copy import deepcopy
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, set_start_moves=True):
         self.board = Board()
         self.player_pointer = 0
         self.players = [Player(i) for i in range(4)]
@@ -25,10 +25,13 @@ class Game:
 
         self.starting_points = [c.p1 for c in self.init_corners]
 
-        self.set_starting_moves()
         self.move_history = []
+        
+        if set_start_moves:
+            self.set_starting_moves()
 
         logging.info("Player Pointer: %s", self.player_pointer)
+    
 
     def set_starting_moves(self):
         for i, c in enumerate(self.init_corners):
@@ -139,7 +142,13 @@ class Game:
             board = self.fill_bad_move(board, bad_move)
 
         board.display()
-    
+
+    def copy(self):
+        copy = Game(set_start_moves=False)
+        copy.board = self.board.copy()
+        copy.players = [p.copy() for p in self.players]
+        copy.move_history = deepcopy(self.move_history)
+
     def get_scores(self):
         return { i: p.get_score() for i, p in enumerate(self.players)}
             

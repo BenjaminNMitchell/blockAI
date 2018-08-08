@@ -1,6 +1,7 @@
 """This class defines an agent for the Blokus Game"""
 
 import random
+from copy import deepcopy
 
 
 class Agent:
@@ -33,6 +34,26 @@ class GreedyAgent(RandomAgent):
         largest_moves = list(filter(lambda m: len(m.orientation) == max_len, valid_moves))
         return self.pick_random_move(largest_moves)
 
+class PointAgent(Agent):
+
+    def get_move(self, game):
+
+        moves = list(game.get_players_moves(self.player_id))
+        if len(moves) == 0:
+            raise RuntimeError(f"Player {self.player_id} is out of moves")
+
+        max_move = None
+        max_count = 0
+
+        for move in moves:
+            game_copy = deepcopy(game)
+            game_copy.make_move(move)
+            move_num = len(list(game_copy.get_players_moves(self.player_id)))
+            if move_num > max_count:
+                max_count = move_num
+                max_move = move
+
+        return max_move
 
 class HumanInput(Agent):
 

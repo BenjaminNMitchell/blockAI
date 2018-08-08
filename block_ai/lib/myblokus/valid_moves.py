@@ -1,7 +1,7 @@
 """Valid Moves store."""
 
 import itertools
-
+from copy import deepcopy
 
 class ValidMoves:
     
@@ -54,3 +54,7 @@ class ValidMoves:
             for l in val.values():
                 length += len(l)
         return length
+
+    def copy(self):
+        copy = ValidMoves()
+        copy.valid_moves = deepcopy(self.valid_moves)

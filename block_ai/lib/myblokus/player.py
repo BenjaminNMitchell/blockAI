@@ -8,7 +8,7 @@ import logging
 from .piece import gen_pieces
 from .valid_moves import ValidMoves
 from .board import Board
-
+from copy import deepcopy
 
 class Player:
 
@@ -93,6 +93,12 @@ class Player:
 
     def add_move(self, move):
         self.valid_moves.add(move)
+
+    def copy(self):
+        copy = Player(self.player_id)
+        copy.valid_moves = self.valid_moves.copy()
+        copy.pieces = deepcopy(self.pieces)
+        copy.invalid_points = deepcopy(self.invalid_points)
 
     def has_moves(self):
         return len(self.valid_moves) > 0
