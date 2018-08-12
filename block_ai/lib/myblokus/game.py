@@ -144,10 +144,11 @@ class Game:
         board.display()
 
     def copy(self):
-        copy = Game(set_start_moves=False)
-        copy.board = self.board.copy()
-        copy.players = [p.copy() for p in self.players]
-        copy.move_history = deepcopy(self.move_history)
+        new_game = Game(set_start_moves=False)
+        new_game.board = deepcopy(self.board)
+        new_game.players = deepcopy(self.players)
+        new_game.move_history = deepcopy(self.move_history)
+        return new_game
 
     def get_scores(self):
         return { i: p.get_score() for i, p in enumerate(self.players)}

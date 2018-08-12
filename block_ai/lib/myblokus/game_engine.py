@@ -7,16 +7,32 @@ from .agent import RandomAgent, GreedyAgent, HumanInput, PointAgent
 
 class GameEngine:
     
-    def __init__(self, display=False):
+    def __init__(self, display=False, players=None):
         self.display = display
         self.game = Game()
-        self.players = [RandomAgent(0), RandomAgent(1), RandomAgent(2), PointAgent(3)]
+        if players is None:
+            self.players = [RandomAgent(i) for  i in range(4)]
+        else:
+            if len(players) != 4:
+                raise ValueError("Must specify 4 player strings")
+
+            self.players = [load_player(i, string) for i, string in enumerate(players)]
+
+    def load_player(player_num, string):
+        if string == 'random':
+            return RandomAgent(player_num)
+        elif string == 'greedy':
+            return GreedyAgent(player_num)
+        elif string == 'point':
+            return PointAgent(player_num)
+        elif string == 'human':
+            return HumanInput(player_num)
+        else:
+            raise ValueError(f"Invalid agent string {string}")
 
     def play_game(self):
         while True:
             try:
-                if self.game.player_pointer % 4 == 0:
-                    print(self.game.player_pointer)
                 self.play_turn()
             except GameEnd:
                 break

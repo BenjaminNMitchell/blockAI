@@ -46,7 +46,7 @@ class PointAgent(Agent):
         max_count = 0
 
         for move in moves:
-            game_copy = deepcopy(game)
+            game_copy = game.copy()
             game_copy.make_move(move)
             move_num = len(list(game_copy.get_players_moves(self.player_id)))
             if move_num > max_count:

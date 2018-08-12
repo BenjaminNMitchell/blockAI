@@ -99,6 +99,7 @@ class Player:
         copy.valid_moves = self.valid_moves.copy()
         copy.pieces = deepcopy(self.pieces)
         copy.invalid_points = deepcopy(self.invalid_points)
+        return copy
 
     def has_moves(self):
         return len(self.valid_moves) > 0

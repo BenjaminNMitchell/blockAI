@@ -58,3 +58,4 @@ class ValidMoves:
     def copy(self):
         copy = ValidMoves()
         copy.valid_moves = deepcopy(self.valid_moves)
+        return copy
