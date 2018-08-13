@@ -39,11 +39,6 @@ class Player:
 
     def clear_moves(self, move):
         
-        invalid_points = move.get_footprint()
-        
-        if self.player_id == move.player_id:
-            invalid_points += move.orientation.get_border_points()
-            
         valid_moves = list(self.valid_moves.get_all())
 
         for m in valid_moves:
