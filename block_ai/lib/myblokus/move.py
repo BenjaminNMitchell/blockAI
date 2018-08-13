@@ -13,7 +13,7 @@ class Move:
             raise RuntimeError(f"Invalid move {str(self)}. Corner disconnected from pieces")
 
     def get_footprint(self):
-        return [p for p in self.orientation.points]
+        return self.orientation.points
     
     def __repr__(self):
         o_repr = repr(self.orientation)

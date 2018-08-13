@@ -71,20 +71,33 @@ class Game:
         for piece_id, piece in player.pieces.items():
             
             for orientation in piece.orientations:
-                logging.debug("Examining orientation: %s", orientation)
                 
                 new_o = Orientation([corner.p2 + rotation(p) for p in orientation.points])
-                logging.debug("New orientation: %s", new_o)
+
                 try:
                     m = Move(new_o, player_id, piece_id, corner)
 
                     if self.is_move_valid(m):
-                        logging.debug("Adding Move: %s", m)
                         player.add_move(m)
+
                 except RuntimeError as err:
                     err_msg = f"Move: {m} invalid: original_orientation: {orientation}"
                     logging.exception(err_msg)
 
+
+    def is_move_valid(self, move):
+        if not self.board.are_squares_free(move.orientation):
+            return False
+
+        play_point = move.corner.p1
+
+        if play_point not in self.starting_points:
+            if self.board.check(play_point) != move.player_id:
+                return False
+
+        return True
+
+    """               
     def is_move_valid(self, move):
         try:
             self.validate_move(move)
@@ -92,20 +105,17 @@ class Game:
         except RuntimeError as err:
             logging.debug(err)
             return False
-    
+    """
+ 
     def validate_move(self, move):
         
         if not self.board.are_squares_free(move.orientation):
             raise RuntimeError(f"Move: {move} squares are not free")
         
         play_point = move.corner.p1
-        logging.info("play point: %s", play_point)
 
         if play_point not in self.starting_points:
-            logging.info("Not in starting_points")
             val = self.board.check(play_point)
-            logging.info("Value at play_point: %s", val)
-            logging.info("Move player_id: %s", move.player_id)
             if val != move.player_id:
                 raise RuntimeError(f"Move: {move} player: {move.player_id} does not occupy corner starting point {play_point}")
                 

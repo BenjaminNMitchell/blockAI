@@ -146,7 +146,7 @@ class OrientationPoints(unittest.TestCase):
         actual = str(o)
 
         # Then
-        expected = "(Point(0, 0), Point(1, 0), Point(1, 1))"
+        expected = "Orientation:\n(0, 0)\n(1, 0)\n(1, 1)"
         self.assertEqual(actual, expected)
 
     def test_repr(self):

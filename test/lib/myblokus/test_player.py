@@ -1,25 +1,20 @@
 from block_ai.lib.myblokus.player import Player
 from block_ai.lib.myblokus.point import Point
 
+from .test_lib import get_move
+
 import unittest
 
 class PlayerTests(unittest.TestCase):
 
-    def test_add_invalid_point(self):
-        # Given
-        point = Point(0, 0)
-        player = Player(0)
-        
-        # When
-        player.invalid_points.add(point)
-
-        # Then
-        self.assertTrue(point in player.invalid_points)
-
     def test_update_same_player(self):
         # Given
         player = Player(0)
+        move = get_move(player_id=0)
+
         # When
+        player.update(move)
+    
         # Then
 
     

@@ -47,24 +47,20 @@ class Player:
         valid_moves = list(self.valid_moves.get_all())
 
         for m in valid_moves:
-            #if m == test_move:
-            #    logger.setLevel(logging.DEBUG)
-                
+
             if not self.is_move_valid(m):
                 self.valid_moves.remove(m)
-                continue
                 
-            if self.overlap(m, move):
+            elif self.overlap(m, move):
                 self.valid_moves.remove(m)
-                
-            #logger.setLevel(logging.INFO)
+ 
 
     def overlap(self, m1, m2):
-        for p in m1.orientation.points:
-            if p in m2.orientation.points:
-                return True
-        return False
-            
+        overlap = m1.orientation.points & m2.orientation.points
+        return len(overlap) != 0
+    
+
+    """
     def is_move_valid(self, move):
         try:
             self.validate_move(move)
@@ -72,7 +68,17 @@ class Player:
         except RuntimeError as err:
             logging.debug(err)
             return False
+
+    """
     
+    def is_move_valid(self, move):
+
+        if not self.has_piece(move.piece_id):
+            return False
+
+        overlap = self.invalid_points & move.orientation.points
+        return len(overlap) == 0
+
     def get_score(self):
         return sum([len(p) for p in self.pieces.values()])
 

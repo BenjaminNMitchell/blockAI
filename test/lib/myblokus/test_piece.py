@@ -18,7 +18,7 @@ class PieceTests(unittest.TestCase):
                   Point(3, 1)]
 
         # When
-        actual = Piece(points).orientations
+        actual = Piece(points, 'p11').orientations
 
         # Then
         self.maxDiff = None
@@ -49,7 +49,7 @@ class PieceTests(unittest.TestCase):
                   Point(1 ,0),
                   Point(1, 1)]
 
-        piece = Piece(points)
+        piece = Piece(points, 'p4')
 
         # When
         actual = piece.get_orientation_prime()
@@ -68,8 +68,8 @@ class PieceTests(unittest.TestCase):
                   Point(1 ,0),
                   Point(1, 1)]
 
-        p1 = Piece(points)
-        p2 = Piece(points)
+        p1 = Piece(points, 'p4')
+        p2 = Piece(points, 'p4')
 
         # Then
         self.assertEqual(p1, p2)
@@ -84,25 +84,25 @@ class PieceTests(unittest.TestCase):
                   Point(1 ,0),
                   Point(2, 0)]
 
-        p1 = Piece(points1)
-        p2 = Piece(points2)
+        p1 = Piece(points1, 'p4')
+        p2 = Piece(points2, 'p3')
 
         # Then
         self.assertFalse(p1 == p2)
 
     def test_equals_wrong_object(self):
         # Given
-        piece = Piece([Point(0, 0)])
+        piece = Piece([Point(0, 0)], 'p1')
 
         self.assertNotEqual(piece, 1)
 
     def test_str(self):
         # Given
-        piece = Piece([Point(0, 0)])
+        piece = Piece([Point(0, 0)], 'p1')
 
         # When
         actual = str(piece)
-        expected = "(Point(0, 0),)"
+        expected = "Piece: p1\nOrientation:\n(0, 0)"
 
         # Then
         self.assertEqual(actual, expected)

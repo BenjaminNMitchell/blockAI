@@ -10,7 +10,7 @@ class Orientation():
     def __init__(self, points):
         #  must be sorted for equality comparison
 
-        self.points = tuple(sorted(points))
+        self.points = frozenset(points)
 
     def get_border_points(self):
         """Return all points adjacent to the orientation."""
@@ -102,12 +102,13 @@ class Orientation():
     def __str__(self) -> str:
         """Return a string representation of this oriention."""
 
-        # return ", ".join([str(p) for p in self.points])
-        return str(self.points)
+        string = "Orientation:\n"
+        string += "\n".join([str(p) for p in sorted(self.points)])
+        return string
 
     def __repr__(self) -> str:
         """Return a string representation of this oriention."""
 
-        # return ", ".join([str(p) for p in self.points])
-        return f"Orientation({str(self)})"
+        inside = ", ".join([repr(p) for p in sorted(self.points)])
+        return f"Orientation(({inside}))"
 
