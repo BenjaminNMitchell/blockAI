@@ -12,6 +12,7 @@ numpy = "*"
 colorama = "*"
 hypothesis = "*"
 matplotlib = "*"
+bitarray = "*"
 
 
 [dev-packages]
