@@ -18,7 +18,7 @@ class GameTests(unittest.TestCase):
 
                 actual_moves = list(game.get_players_moves(move.player_id))
 
-                self.assertEqual(sorted(actual_moves), sorted(expected_moves))
+                self.assertEqual(actual_moves, expected_moves)
 
                 game.make_move(move)
             

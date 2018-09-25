@@ -105,9 +105,9 @@ def rot90(point):
 
 def rot180(point):
     """Return a new Point object rotated 180 degrees counter clockwise."""
-    return rot90(rot90(point))
+    return Point( -point.x, -point.y)
 
 def rot270(point):
     """Return a new Point object rotated 270 degrees counter clockwise."""
-    return rot180(rot90(point))
+    return Point( -point.y, point.x)
 
