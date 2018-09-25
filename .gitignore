@@ -4,3 +4,4 @@ __pycache__
 *.swp*
 *.ipynb_checkpoints*
 .coverage
+notebooks/untracked_notebooks
