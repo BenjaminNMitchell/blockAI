@@ -1,4 +1,9 @@
-expected_moves = {0: (Move(orientation=Orientation((Point(0, 0), Point(0, 1), Point(1, 0), Point(2, 0), Point(2, 1))),
+from block_ai.lib.myblokus.move import Move
+from block_ai.lib.myblokus.orientation import Orientation 
+from block_ai.lib.myblokus.point import Point 
+from block_ai.lib.myblokus.corner import Corner
+
+turn_moves = {0: (Move(orientation=Orientation((Point(0, 0), Point(0, 1), Point(1, 0), Point(2, 0), Point(2, 1))),
                         player_id=0,
                         piece_id='p14',
                         corner=Corner(p1=Point(-1, -1), p2=Point(0, 0))), [Move(orientation=Orientation((Point(0, 0),)),
