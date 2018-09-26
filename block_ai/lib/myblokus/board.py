@@ -16,7 +16,6 @@ class Board:
         
     def are_squares_free(self, orientation):
         for p in orientation.points:
-            logging.info(f"Point: {p}")
             if not self.is_square_free(p):
                 return False
         return True
@@ -35,7 +34,6 @@ class Board:
     
     def point_empty(self, p):
         val = self.check(p)
-        logging.debug(val)
         return val == self.EMPTY
     
     def check(self, point):
@@ -43,7 +41,6 @@ class Board:
         
     def assign(self, point, value):
         if self.on_board(point):
-            logging.debug("assigning %s: %s", point, value)
             self.board[point.y][point.x] = value
         else:
             logging.debug("%s off board not assigning", point)

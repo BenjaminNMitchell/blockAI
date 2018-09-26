@@ -6,8 +6,6 @@ from .point import Point
 from . import point
 
 import itertools
-import logging
-
 
 class Piece:
 

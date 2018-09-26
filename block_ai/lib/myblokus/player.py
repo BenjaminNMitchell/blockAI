@@ -23,13 +23,10 @@ class Player:
         
         if self.player_id == move.player_id:
 
-            logging.info("Deleting piece id: %s", move.piece_id)
             del self.pieces[move.piece_id]
             
-            logging.info("Adding border points")
             self.add_border_points(move)
             
-        logging.info("Clearing moves")
         self.clear_moves(move)
         
     def add_border_points(self, move):
@@ -47,8 +44,6 @@ class Player:
         valid_moves = list(self.valid_moves.get_all())
 
         for m in valid_moves:
-            #if m == test_move:
-            #    logger.setLevel(logging.DEBUG)
                 
             if not self.is_move_valid(m):
                 self.valid_moves.remove(m)
@@ -57,7 +52,6 @@ class Player:
             if self.overlap(m, move):
                 self.valid_moves.remove(m)
                 
-            #logger.setLevel(logging.INFO)
 
     def overlap(self, m1, m2):
         for p in m1.orientation.points:

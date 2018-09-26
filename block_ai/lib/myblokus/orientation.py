@@ -2,7 +2,6 @@
 
 from .point import Point
 from .corner import Corner
-import logging
 
 class Orientation():
     """The orientation calss stores a collection of relative points."""

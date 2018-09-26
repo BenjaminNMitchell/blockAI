@@ -1,6 +1,5 @@
 """This class defines a corner object as a collection of 2 Point objects."""
 
-import logging
 from .point import Point
 from . import point
 
