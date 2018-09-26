@@ -60,13 +60,15 @@ class Player:
         return False
             
     def is_move_valid(self, move):
-        try:
-            self.validate_move(move)
-            return True
-        except RuntimeError as err:
-            logging.debug(err)
-            return False
-    
+        if not self.has_piece(move.piece_id):
+           return False
+
+        new_points = move.orientation.points
+        for p in move.get_footprint():
+            if p in self.invalid_points:
+                return False
+        return True
+
     def get_score(self):
         return sum([len(p) for p in self.pieces.values()])
 

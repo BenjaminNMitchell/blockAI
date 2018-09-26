@@ -80,43 +80,36 @@ class Game:
                     logging.exception(err_msg)
 
     def is_move_valid(self, move):
-        try:
-            self.validate_move(move)
-            return True
-        except RuntimeError as err:
-            logging.debug(err)
+
+        if not self.board.are_squares_free(move.orientation):
             return False
-    
+        play_point = move.corner.p1
+
+        if play_point not in self.starting_points:
+            val = self.board.check(play_point)
+            if val != move.player_id:
+                return False
+
+        if not self.players[move.player_id].is_move_valid(move):
+            return False
+
+        return True
+        
     def validate_move(self, move):
         
         if not self.board.are_squares_free(move.orientation):
             raise RuntimeError(f"Move: {move} squares are not free")
         
         play_point = move.corner.p1
+        logging.info("play point: %s", play_point)
 
         if play_point not in self.starting_points:
+            logging.info("Not in starting_points")
             val = self.board.check(play_point)
+            logging.info("Value at play_point: %s", val)
+            logging.info("Move player_id: %s", move.player_id)
             if val != move.player_id:
                 raise RuntimeError(f"Move: {move} player: {move.player_id} does not occupy corner starting point {play_point}")
-                
-        self.players[move.player_id].validate_move(move)
-    
-#TODO switch to boolean is_move_valid use this to check how
-#    def validate_move(self, move):
-#        
-#        if not self.board.are_squares_free(move.orientation):
-#            raise RuntimeError(f"Move: {move} squares are not free")
-#        
-#        play_point = move.corner.p1
-#        logging.info("play point: %s", play_point)
-#
-#        if play_point not in self.starting_points:
-#            logging.info("Not in starting_points")
-#            val = self.board.check(play_point)
-#            logging.info("Value at play_point: %s", val)
-#            logging.info("Move player_id: %s", move.player_id)
-#            if val != move.player_id:
-#                raise RuntimeError(f"Move: {move} player: {move.player_id} does not occupy corner starting point {play_point}")
                 
         self.players[move.player_id].validate_move(move)
     def set_next_player(self):
