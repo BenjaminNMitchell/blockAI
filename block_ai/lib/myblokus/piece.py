@@ -50,7 +50,7 @@ class Piece:
         return not self == other
 
     def __str__(self):
-        return "\n".join([str(o) for o in self.orientations])
+        return "Piece:\n" + "\n".join([str(o) for o in self.orientations])
             
 def gen_pieces():
     """Generates the pieces available to a player at the start of a game"""

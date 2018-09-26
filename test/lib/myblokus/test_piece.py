@@ -102,7 +102,7 @@ class PieceTests(unittest.TestCase):
 
         # When
         actual = str(piece)
-        expected = "(Point(0, 0),)"
+        expected = "Piece:\nOrientation:\n(0, 0)"
 
         # Then
         self.assertEqual(actual, expected)

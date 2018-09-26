@@ -16,9 +16,9 @@ class GameTests(unittest.TestCase):
 
                 move, expected_moves  = turn_moves[turn_num]
 
-                actual_moves = list(game.get_players_moves(move.player_id))
+                actual_moves = set(game.get_players_moves(move.player_id))
 
-                self.assertEqual(actual_moves, expected_moves)
+                self.assertEqual(actual_moves, set(expected_moves))
 
                 game.make_move(move)
             
