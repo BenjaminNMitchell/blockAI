@@ -41,7 +41,7 @@ class PieceTests(unittest.TestCase):
             Orientation((Point(0, 0), Point(0, 1), Point(-1, 1), Point(-2, 1), Point(-3, 1)))
         }
 
-        self.assertEqual(sorted(actual), sorted(expected))
+        self.assertEqual(actual, expected)
 
     def test_get_orientation_prime(self):
         # Given

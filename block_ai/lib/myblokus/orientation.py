@@ -9,7 +9,7 @@ class Orientation():
     def __init__(self, points):
         #  must be sorted for equality comparison
 
-        self.points = frozenset(sorted(points))
+        self.points = frozenset(points)
 
     def get_border_points(self):
         """Return all points adjacent to the orientation."""
@@ -90,13 +90,7 @@ class Orientation():
 
     def __eq__(self, other) -> bool:
         """Returns true if this orientation contains all the same points as the other."""
-
-        if len(self) != len(other):
-            return False
-        for a, b in zip(self.points, other.points):
-            if a != b:
-                return False
-        return True
+        return len(self.points) == len(other.points) and self.points.issubset(other.points)
 
     def __str__(self) -> str:
         """Return a string representation of this oriention."""
