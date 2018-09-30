@@ -21,9 +21,28 @@ def time_game():
 
 times = [timeit.timeit(stmt=time_game, number=1) for i in range(args.iterations)]
 avg_s = np.mean(times)
-ms_per_s = 1000
-std_dev_ms = np.std(times) * ms_per_s
+std_dev = np.std(times)
+
+def get_time_string(time):
+
+    metric_conversion = 1000
+     
+    if time < 1.0:
+        unit = "ms"
+        time *= metric_conversion
+
+    if time < 1.0:
+        unit = "ns"
+        time *= metric_conversion
+
+    return f"{time:.2f} {unit}"
+
+    
+    
+   
+        
+        
 
 print("\n==================== Timing Results ====================\n")
-print(f"    Total Time: {avg_s:.2} s ± {std_dev_ms:.5} ms for {args.iterations} runs")
+print(f"    Total Time: {get_time_string(avg_s)} ± {get_time_string(std_dev)} for {args.iterations} runs")
 print("\n========================== End =========================\n")
