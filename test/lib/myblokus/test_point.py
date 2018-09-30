@@ -8,13 +8,6 @@ import hypothesis.strategies as st
 
 class PointTests(unittest.TestCase):
 
-    def test_init_fails(self):
-        with self.assertRaises(TypeError):
-            p = Point(None, 1)
-        
-        with self.assertRaises(TypeError):
-            p = Point(1, None)
-        
     def test_get_adjacent(self):
         # Given 
         p = Point(1, 1)
@@ -103,7 +96,7 @@ class PointTests(unittest.TestCase):
         p5 = Point(x + 1, y + 1)
 
         # Then
-        self.assertTrue(p1 < p1)
+        self.assertFalse(p1 < p1)
         self.assertTrue(p1 < p2)
         self.assertTrue(p2 < p3)
         self.assertTrue(p3 < p4)

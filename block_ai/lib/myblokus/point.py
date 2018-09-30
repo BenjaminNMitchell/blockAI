@@ -7,34 +7,6 @@ class Point:
         self.x = x
         self.y = y
 
-    @property
-    def x(self) -> int:
-        """The x coordinate of this point."""
-
-        return self.__x
-
-    @x.setter
-    def x(self, x: int):
-        """Setter for the x coordinate of this point."""
-
-        if type(x) is not int:
-            raise TypeError("x must be an int")
-        self.__x = x
-
-    @property
-    def y(self) -> int:
-        """The y coordinate of this point."""
-
-        return self.__y
-
-    @y.setter
-    def y(self, y: int):
-        """Setter for the y coordinate of this point."""
-
-        if type(y) is not int:
-            raise TypeError("y must be an int")
-        self.__y = y
-    
 
     def get_adjacent(self):
         """Get all points at distance one."""
@@ -63,7 +35,7 @@ class Point:
 
     def __lt__(self, other) -> bool:
         if self == other:
-            return True
+            return False
         elif self.x == other.x:
             return self.y < other.y
         else:
