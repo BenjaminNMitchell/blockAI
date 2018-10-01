@@ -21,23 +21,13 @@ class Board:
     def are_squares_free(self, orientation):
         for p in orientation.points:
 
-            if not self.on_board(p):
+            x, y = p
+
+            if x >= self.SIDE_LENGTH or x < 0 or y >= self.SIDE_LENGTH or y < 0:
                 return False
-           
-            if not self.point_empty(p):
+
+            if not self.board[y][x] == self.EMPTY:
                 return False
-
-        return True
-
-    def is_square_free(self, p):
-
-        x, y = p
-
-        if x >= self.SIDE_LENGTH or x < 0 or y >= self.SIDE_LENGTH or y < 0:
-            return False
-
-        if not self.board[y][x] == self.EMPTY:
-            return False
 
         return True
 
