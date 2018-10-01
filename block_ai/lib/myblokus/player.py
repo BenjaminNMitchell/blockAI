@@ -36,11 +36,6 @@ class Player:
 
     def clear_moves(self, move):
         
-        invalid_points = move.get_footprint()
-        
-        if self.player_id == move.player_id:
-            invalid_points += move.orientation.get_border_points()
-            
         valid_moves = list(self.valid_moves.get_all())
 
         for m in valid_moves:
@@ -54,35 +49,26 @@ class Player:
                 
 
     def overlap(self, m1, m2):
-        for p in m1.orientation.points:
-            if p in m2.orientation.points:
-                return True
-        return False
-            
+        return not m1.orientation.points.isdisjoint(m2.orientation.points)
+
     def is_move_valid(self, move):
-        if not self.has_piece(move.piece_id):
+        if not move.piece_id in self.pieces:
            return False
 
-        new_points = move.orientation.points
-        for p in move.get_footprint():
-            if p in self.invalid_points:
-                return False
-        return True
+        return move.orientation.points.isdisjoint(self.invalid_points)
 
     def get_score(self):
         return sum([len(p) for p in self.pieces.values()])
 
     def validate_move(self, move):
-        if not self.has_piece(move.piece_id):
+        if not move.piece_id in self.pieces:
             raise RuntimeError(f"Move {move} invalid. Already played {move.piece_id}")
-
+        
+        #TODO optimize this
         new_points = move.orientation.points
-        for p in move.get_footprint():
+        for p in new_points:
             if p in self.invalid_points:
                 raise RuntimeError(f"Move {move} invalid. Includes invalid point {p}")
-
-    def has_piece(self, piece_id):
-        return piece_id in self.pieces
 
     def get_corners(self):
         return self.valid_moves.get_corners()

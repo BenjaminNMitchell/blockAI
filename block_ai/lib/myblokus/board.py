@@ -3,16 +3,19 @@ import logging
 from .board_view import BoardView
 from block_ai.lib.myblokus.point import X, Y
 
+
+
 class Board:
     SIDE_LENGTH = 20
     shape = (SIDE_LENGTH, SIDE_LENGTH)
     EMPTY = -1
     
+    
     def __init__(self):
         self.board = np.full(self.shape, self.EMPTY)
         
     def update(self, move):
-        for p in move.get_footprint():
+        for p in move.orientation.points:
             self.assign(p, move.player_id)
         
     def are_squares_free(self, orientation):
@@ -21,16 +24,21 @@ class Board:
             if not self.on_board(p):
                 return False
            
-            if not self.board[p[Y]][p[X]] == self.EMPTY:
+            if not self.point_empty(p):
                 return False
 
         return True
 
     def is_square_free(self, p):
-        if not self.on_board(p):
+
+        x, y = p
+
+        if x >= self.SIDE_LENGTH or x < 0 or y >= self.SIDE_LENGTH or y < 0:
             return False
-        if not self.point_empty(p):
+
+        if not self.board[y][x] == self.EMPTY:
             return False
+
         return True
 
     @classmethod
