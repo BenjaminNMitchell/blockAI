@@ -29,19 +29,21 @@ class Board:
 
     @classmethod
     def on_board(self, point):
-        valid_points = range(0, self.SIDE_LENGTH)
-        return point.x in valid_points and point.y in valid_points
+        x, y = point
+        return x < self.SIDE_LENGTH and x >= 0 and y < self.SIDE_LENGTH and y >= 0
     
     def point_empty(self, p):
         val = self.check(p)
         return val == self.EMPTY
     
     def check(self, point):
-        return self.board[point.y][point.x]
+        x, y = point
+        return self.board[y][x]
         
     def assign(self, point, value):
         if self.on_board(point):
-            self.board[point.y][point.x] = value
+            x, y = point
+            self.board[y][x] = value
         else:
             logging.debug("%s off board not assigning", point)
             

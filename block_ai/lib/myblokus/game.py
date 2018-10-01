@@ -1,11 +1,11 @@
 """A game of Blokus."""
 
 import logging
+from . import point
 from .player import Player
 from .piece import gen_pieces
 from .board import Board
 from .corner import Corner
-from .point import Point
 from .orientation import Orientation
 from .move import Move
 
@@ -18,10 +18,10 @@ class Game:
         self.player_pointer = 0
         self.players = [Player(i) for i in range(4)]
 
-        self.init_corners = [Corner(Point(-1, -1), Point(0, 0)),
-                             Corner(Point(-1, 20), Point(0, 19)),
-                             Corner(Point(20, 20), Point(19, 19)),
-                             Corner(Point(20, -1), Point(19, 0))]
+        self.init_corners = [Corner((-1, -1), (0, 0)),
+                             Corner((-1, 20), (0, 19)),
+                             Corner((20, 20), (19, 19)),
+                             Corner((20, -1), (19, 0))]
 
         self.starting_points = [c.p1 for c in self.init_corners]
 
@@ -69,7 +69,7 @@ class Game:
             
             for orientation in piece.orientations:
                 
-                new_o = Orientation([corner.p2 + rotation(p) for p in orientation.points])
+                new_o = Orientation([point.add(corner.p2, rotation(p)) for p in orientation.points])
                 try:
                     m = Move(new_o, player_id, piece_id, corner)
 
@@ -112,6 +112,7 @@ class Game:
                 raise RuntimeError(f"Move: {move} player: {move.player_id} does not occupy corner starting point {play_point}")
                 
         self.players[move.player_id].validate_move(move)
+
     def set_next_player(self):
         logging.info("Advancing player")
         self.player_pointer = self.get_next_player()

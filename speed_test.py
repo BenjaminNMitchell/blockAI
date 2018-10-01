@@ -26,7 +26,8 @@ std_dev = np.std(times)
 def get_time_string(time):
 
     metric_conversion = 1000
-     
+    unit = 's'
+    
     if time < 1.0:
         unit = "ms"
         time *= metric_conversion

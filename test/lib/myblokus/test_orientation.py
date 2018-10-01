@@ -1,5 +1,5 @@
 from block_ai.lib.myblokus.orientation import Orientation
-from block_ai.lib.myblokus.point import Point
+from block_ai.lib.myblokus import point  
 from block_ai.lib.myblokus.corner import Corner
 
 import unittest
@@ -10,9 +10,9 @@ import hypothesis.strategies as st
 class OrientationPoints(unittest.TestCase):
     
     def setUp(self):
-        self.p1 = Point(0, 0)
-        self.p2 = Point(1, 0)
-        self.p3 = Point(1, 1)
+        self.p1 = (0, 0)
+        self.p2 = (1, 0)
+        self.p3 = (1, 1)
         self.points = [self.p1, self.p2, self.p3]
 
     def test_setup(self):
@@ -26,13 +26,13 @@ class OrientationPoints(unittest.TestCase):
         actual = o.get_border_points()
 
         # Then
-        expected = {Point(-1, 0), 
-                    Point(0, -1),
-                    Point(0, 1),
-                    Point(1, -1),
-                    Point(1, 2),
-                    Point(2, 0),
-                    Point(2, 1)}
+        expected = {(-1, 0), 
+                    (0, -1),
+                    (0, 1),
+                    (1, -1),
+                    (1, 2),
+                    (2, 0),
+                    (2, 1)}
         self.assertEqual(actual, expected)
 
     def test_get_corners(self):
@@ -44,10 +44,10 @@ class OrientationPoints(unittest.TestCase):
 
         # Then
         expected = {
-            Corner(Point(0, 0), Point(-1, 1)),
-            Corner(Point(1, 1), Point(0, 2)),
-            Corner(Point(1, 0), Point(2, -1)),
-            Corner(Point(1, 1), Point(2, 2))
+            Corner((0, 0), (-1, 1)),
+            Corner((1, 1), (0, 2)),
+            Corner((1, 0), (2, -1)),
+            Corner((1, 1), (2, 2))
         }
         self.assertEqual(actual, expected)
 
@@ -63,7 +63,7 @@ class OrientationPoints(unittest.TestCase):
 
     def test_is_valid_false(self):
         # Given
-        o = Orientation([Point(-1, -1)])
+        o = Orientation([(-1, -1)])
 
         # When
         actual = o.is_valid()
@@ -74,8 +74,8 @@ class OrientationPoints(unittest.TestCase):
     @given(st.integers(), st.integers())
     def test_hash(self, x, y):
         # Given
-        p1 = Point(x, y)
-        p2 = Point(x + 1, y + 1)
+        p1 = (x, y)
+        p2 = (x + 1, y + 1)
     
         o1 = Orientation([p1, p2])
         o2 = Orientation([p1, p2])
@@ -104,9 +104,9 @@ class OrientationPoints(unittest.TestCase):
 
     def test_less_than_equal_length(self):
         # Given
-        p1 = Point(0, 0)
-        p2 = Point(0, 1)
-        p3 = Point(1, 0)
+        p1 = (0, 0)
+        p2 = (0, 1)
+        p3 = (1, 0)
     
         o1 = Orientation([p1, p2])
         o2 = Orientation([p1, p3])
@@ -116,24 +116,24 @@ class OrientationPoints(unittest.TestCase):
 
     def test_equals_true(self):
         # Given
-        o1 = Orientation([Point(0, 0), Point(0, 1)])
-        o2 = Orientation([Point(0, 0), Point(0, 1)])
+        o1 = Orientation([(0, 0), (0, 1)])
+        o2 = Orientation([(0, 0), (0, 1)])
 
         # Then
         self.assertTrue(o1 == o2)
     
     def test_equals_false(self):
         # Given
-        o1 = Orientation([Point(0, 0), Point(0, 1)])
-        o2 = Orientation([Point(0, 0), Point(1, 0)])
+        o1 = Orientation([(0, 0), (0, 1)])
+        o2 = Orientation([(0, 0), (1, 0)])
 
         # Then
         self.assertFalse(o1 == o2)
 
     def test_equals_false_different_length(self):
         # Given
-        o1 = Orientation([Point(0, 0), Point(0, 1)])
-        o2 = Orientation([Point(0, 0)])
+        o1 = Orientation([(0, 0), (0, 1)])
+        o2 = Orientation([(0, 0)])
 
         # Then
         self.assertFalse(o1 == o2)
@@ -157,5 +157,5 @@ class OrientationPoints(unittest.TestCase):
         actual = repr(o)
 
         # Then
-        expected = "Orientation((Point(1, 0), Point(0, 0), Point(1, 1)))"
+        expected = "Orientation(((1, 0), (0, 0), (1, 1)))"
         self.assertEqual(actual, expected)

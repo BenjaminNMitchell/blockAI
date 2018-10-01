@@ -1,6 +1,5 @@
 from block_ai.lib.myblokus.move import Move
 from block_ai.lib.myblokus.corner import Corner
-from block_ai.lib.myblokus.point import Point
 from block_ai.lib.myblokus.orientation import Orientation
 
 from . import test_lib as tl
@@ -27,9 +26,9 @@ class MoveTests(unittest.TestCase):
         # Given
         # differ for the two components of a move
         orientation2 = Orientation((
-            Point(0, 0),
-            Point(0, 1),
-            Point(0, 2)
+            (0, 0),
+            (0, 1),
+            (0, 2)
             ))
 
         player_id3 = 1
@@ -50,9 +49,9 @@ class MoveTests(unittest.TestCase):
     def test_eq(self):
         
         orientation2 = Orientation((
-            Point(0, 0),
-            Point(0, 1),
-            Point(0, 2)
+            (0, 0),
+            (0, 1),
+            (0, 2)
             ))
 
         player_id3 = 1

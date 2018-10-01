@@ -3,7 +3,7 @@ from block_ai.lib.myblokus.valid_moves import ValidMoves
 from block_ai.lib.myblokus.move import Move
 from block_ai.lib.myblokus.orientation import Orientation
 from block_ai.lib.myblokus.corner import Corner
-from block_ai.lib.myblokus.point import Point
+from block_ai.lib.myblokus import point
 
 import unittest
 
@@ -25,8 +25,8 @@ class ValidMovesTests(unittest.TestCase):
         
 
     def get_move(self):
-        o = Orientation((Point(0, 0),))
-        c = Corner(Point(-1, -1), Point(0, 0))
+        o = Orientation(((0, 0),))
+        c = Corner((-1, -1), (0, 0))
         piece_id = 'p1'
         player_id = 0
         return Move(o, piece_id, player_id, c)

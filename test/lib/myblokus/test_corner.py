@@ -1,5 +1,5 @@
 from block_ai.lib.myblokus.corner import Corner
-from block_ai.lib.myblokus.point import Point
+from block_ai.lib.myblokus import point
 
 import unittest
 import hypothesis
@@ -8,8 +8,8 @@ class CornerTests(unittest.TestCase):
 
     def test_invalid_diff(self):
         # Given
-        p1 = Point(0, 0)
-        p2 = Point(1, 2)
+        p1 = (0, 0)
+        p2 = (1, 2)
 
         # Then
         with self.assertRaises(ValueError):
@@ -20,26 +20,26 @@ class CornerTests(unittest.TestCase):
     def test_get_rotation(self):
         # Given
         points = [
-            Point(-1, -1),
-            Point(-1, 1),
-            Point(1, -1),
-            Point(1, 1)
+            (-1, -1),
+            (-1, 1),
+            (1, -1),
+            (1, 1)
         ]
 
         for point in points:
-            c = Corner(Point(0, 0), point)
+            c = Corner((0, 0), point)
 
             # When
             rot = c.get_rotation()
             vector = rot(c.diff)
 
             # Then
-            self.assertEqual(vector, Point(1, 1))
+            self.assertEqual(vector, (1, 1))
 
     def test_eq_true(self):
         # Given
-        c1 = Corner(Point(0, 0), Point(1, 1))
-        c2 = Corner(Point(0, 0), Point(-1, -1))
+        c1 = Corner((0, 0), (1, 1))
+        c2 = Corner((0, 0), (-1, -1))
 
         # Then
         self.assertTrue(c1 == c1)
@@ -48,9 +48,9 @@ class CornerTests(unittest.TestCase):
     def test_hash(self):
 
         # Given
-        c1 = Corner(Point(0, 0), Point(1, 1))
-        c2 = Corner(Point(0, 0), Point(1, 1))
-        c3 = Corner(Point(0, 0), Point(-1, -1))
+        c1 = Corner((0, 0), (1, 1))
+        c2 = Corner((0, 0), (1, 1))
+        c3 = Corner((0, 0), (-1, -1))
 
         # When
         h1 = hash(c1)

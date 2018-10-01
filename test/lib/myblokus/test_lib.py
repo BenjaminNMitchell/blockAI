@@ -1,6 +1,6 @@
 from block_ai.lib.myblokus.move import Move
 from block_ai.lib.myblokus.corner import Corner
-from block_ai.lib.myblokus.point import Point
+from block_ai.lib.myblokus import point  
 from block_ai.lib.myblokus.orientation import Orientation
 
 
@@ -24,13 +24,13 @@ def get_move(orientation=None, player_id=None, piece_id=None, corner=None):
 def get_orientation():
 
     points = (
-        Point(0, 0),
-        Point(0, 1),
-        Point(1, 1)
+        (0, 0),
+        (0, 1),
+        (1, 1)
         )
 
     return Orientation(points)
 
 def get_corner():
 
-    return Corner(Point(-1, -1), Point(0, 0))
+    return Corner((-1, -1), (0, 0))

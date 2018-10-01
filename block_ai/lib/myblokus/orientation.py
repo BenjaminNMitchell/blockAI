@@ -1,6 +1,6 @@
 """This class defines a single orientation of a piece."""
 
-from .point import Point
+from . import point
 from .corner import Corner
 
 class Orientation():
@@ -14,57 +14,50 @@ class Orientation():
     def get_border_points(self):
         """Return all points adjacent to the orientation."""
 
-        return self.__get_related_points("get_adjacent")
+        border_points = set()
 
+        for p in self.points:
+        
+            border_points.update(point.get_adjacent(p))
+
+        return border_points - self.points
+            
     def get_corners(self):
         """Return all points which only share a corner with this orientation."""
 
-        border_points = set(self.get_border_points())
         
-        played_point = {Point(-1, -1)} # point we played from
-        invalid_corners = border_points | played_point 
+        corner_points = set()
+
+        for p in self.points:
+            corners = [Corner(p, c) for c in point.get_corners(p)] 
+            corner_points.update(corners)
         
-        related_corners = set()
-        for point in self.points:
-            relatives = point.get_corners()
-            valid_relatives = set(filter(lambda p: p not in self.points, relatives))
-            valid_relatives = valid_relatives - invalid_corners
-            valid_corners = set([Corner(point, relative) for relative in valid_relatives])
-            related_corners = related_corners | valid_corners
-   
-        return related_corners
-
-    def __get_related_points(self, func_name):
-        """Generate points related to this orientation."""
-
-        related_points = set()
-        for point in self.points:
-            relatives = eval(f"point.{func_name}()")
-            valid_relatives = set(filter(lambda p: p not in self.points, relatives))
-            related_points = related_points | valid_relatives
-        return related_points
-
-    def get_invalid_points(self):
+        invalid_points = self.get_border_points()
+        invalid_points.update(self.points)
+        invalid_points.add((-1, -1))
         
+        return {c for c in corner_points if c.p2 not in invalid_points}
+
+    def get_invalid_points(self):       
         adjacent_points = self.get_border_points()        
-        return [p.copy() for p in self.points + tuple(adjacent_points)]
+        return [(p[0], p[1]) for p in self.points + tuple(adjacent_points)]
 
     def is_valid(self) -> bool:
         """Return true if this is a valid orientation and false otherwise."""
 
         invalid_points = [
-            Point(-1, -1),  # Point we played from
-            Point(0, -1),   # Adjacent point
-            Point(-1, 0),   # Adjacent point
+            (-1, -1),  # Point we played from
+            (0, -1),   # Adjacent point
+            (-1, 0),   # Adjacent point
         ]
 
-        for p in self.points:
-            if p in invalid_points:
+        for p in invalid_points:
+            if p in self.points:
                 return False
         return True
 
     def flip(self):
-        new_points = [Point(p.y, p.x) for p in self.points]
+        new_points = [(p[1], p[0]) for p in self.points]
         return Orientation(new_points)
  
     def __hash__(self) -> int:
