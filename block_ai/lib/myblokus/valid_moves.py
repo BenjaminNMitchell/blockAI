@@ -8,6 +8,7 @@ class ValidMoves:
     def __init__(self):
         self.valid_moves = {}
 
+    #TODO Use (Corner, Piece) --> Move
     def add(self, move):
         try:
             corner_moves = self.valid_moves[move.corner]
