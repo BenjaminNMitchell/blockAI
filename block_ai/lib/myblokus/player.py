@@ -16,12 +16,11 @@ class Player:
         self.player_id = player_id
         self.pieces = gen_pieces()
         self.valid_moves = ValidMoves()
-        self.invalid_points = set()
+        self.invalid_points_list = [set()]
+        self.invalid_points = self.invalid_points_list[0]
         
     def update(self, move):
         logging.info("Updating player %s", self.player_id)
-
-        self.valid_moves.next_move()
         
         if self.player_id == move.player_id:
 
@@ -30,14 +29,21 @@ class Player:
             self.add_border_points(move)
             
         self.clear_moves(move)
+        
+        self.valid_moves.next_move()
+        self.invalid_points_list.append(self.invalid_points.copy())
+        self.invalid_points = self.invalid_points_list[-1]
 
     def pop_moves(self, move):
-        # TODO add code to add last played piece back if we played it
-        # revert valid moves
-        # make similar stackset thing for invalid_points
+        # TODO make this a pieces a dict: (piece, bool)
+        if move.player_id == self.player_id:
+            piece = gen_pieces()[move.piece_id]
+            self.pieces[move.piece_id] = piece
 
-        raise ValueError("You left off here")
+        self.valid_moves.prev_move()
         
+        self.invalid_points_list = self.invalid_points_list[:-1]
+        self.invalid_points = self.invalid_points_list[-1]
         
     def add_border_points(self, move):
         invalid_points = move.orientation.get_border_points()

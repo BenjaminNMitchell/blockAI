@@ -13,13 +13,14 @@ class ValidMoves:
         
     def next_move(self):
         self.turn_counter += 1
+        
         self.turn_moves.append(self.valid_moves.copy())
         self.valid_moves = self.turn_moves[self.turn_counter]
 
     def prev_move(self):
         self.turn_counter -= 1 
         self.turn_moves = self.turn_moves[:-1]
-        self.valid_moves = self.turn_moves[turn_counter]
+        self.valid_moves = self.turn_moves[self.turn_counter]
 
     #TODO Use (Corner, Piece) --> Move
     def add(self, move):

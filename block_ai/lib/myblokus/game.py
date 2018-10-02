@@ -54,10 +54,11 @@ class Game:
             self.board.assign(p, Board.EMPTY)
         
         for player in self.players:
-            player.prev_move()
+            player.pop_moves(self.move_history[-1])
 
-        self.move_history = self.move_history[:-1]
         self.set_prev_player()
+        self.move_history.pop()
+
             
     def update_state(self, move):
         self.board.update(move)
@@ -139,7 +140,9 @@ class Game:
 
     def set_prev_player(self):
         logging.info("Retreating Player")
+        logging.info(f"Current Player Pointer: {self.player_pointer}")
         self.player_pointer = self.get_prev_player()
+        logging.info(f"New Player Pointer: {self.player_pointer}")
 
     def get_prev_player(self):
         
@@ -147,15 +150,23 @@ class Game:
        
         ptr = self.player_pointer
 
+        logging.info(f"Turn nums: {turn_nums}")
         for i in range(4):
 
+            logging.info(f"I: {i}")
             if turn_nums[i]  == 0:
                 raise ValueError("No prior turns")
-
+            
+            
             ptr = self.retreate(ptr)
 
-            if self.players[ptr].has_move():
+            logging.info(f"New Pointer {ptr}")
+
+            if self.players[ptr].has_moves():
+                logging.info(f"Player: {ptr} has moves")
                 return ptr
+            else:
+                logging.info(f"Player: {ptr} does not have moves!")
 
     def advance(self, player_id):
         return (player_id + 1) % 4
