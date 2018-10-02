@@ -14,9 +14,22 @@ class ValidMoves:
     def next_move(self):
         self.turn_counter += 1
         
-        self.turn_moves.append(self.valid_moves.copy())
+        self.turn_moves.append(self.get_vm_copy())
         self.valid_moves = self.turn_moves[self.turn_counter]
+    
+    def get_vm_copy(self):
+        new_dict = {}
+        for name1, d_outer in self.valid_moves.items():
+            new_dict[name1] = {}
 
+            d_set1 = new_dict[name1]
+ 
+            for name2, l in d_outer.items():
+                
+                d_set1[name2] = l.copy()
+
+        return new_dict
+    
     def prev_move(self):
         self.turn_counter -= 1 
         self.turn_moves = self.turn_moves[:-1]
