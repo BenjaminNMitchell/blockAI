@@ -3,8 +3,6 @@ import logging
 from .board_view import BoardView
 from block_ai.lib.myblokus.point import X, Y
 
-
-
 class Board:
     SIDE_LENGTH = 20
     shape = (SIDE_LENGTH, SIDE_LENGTH)

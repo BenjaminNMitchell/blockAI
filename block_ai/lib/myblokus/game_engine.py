@@ -16,9 +16,9 @@ class GameEngine:
             if len(players) != 4:
                 raise ValueError("Must specify 4 player strings")
 
-            self.players = [load_player(i, string) for i, string in enumerate(players)]
+            self.players = [self.load_player(i, string) for i, string in enumerate(players)]
 
-    def load_player(player_num, string):
+    def load_player(self, player_num, string):
         if string == 'random':
             return RandomAgent(player_num)
         elif string == 'greedy':

@@ -39,13 +39,19 @@ class PointAgent(Agent):
     def get_move(self, game):
 
         moves = list(game.get_players_moves(self.player_id))
+
+        print(f"Analizing {len(moves)} moves:")
+
         if len(moves) == 0:
             raise RuntimeError(f"Player {self.player_id} is out of moves")
 
         max_move = None
         max_count = 0
 
-        for move in moves:
+        for i, move in enumerate(moves):
+            if i % 10 == 0 and i != 0:
+                print(i)
+
             game_copy = game.copy()
             game_copy.make_move(move)
             move_num = len(list(game_copy.get_players_moves(self.player_id)))

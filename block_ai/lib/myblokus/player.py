@@ -20,6 +20,8 @@ class Player:
         
     def update(self, move):
         logging.info("Updating player %s", self.player_id)
+
+        self.valid_moves.next_move()
         
         if self.player_id == move.player_id:
 
@@ -28,6 +30,14 @@ class Player:
             self.add_border_points(move)
             
         self.clear_moves(move)
+
+    def pop_moves(self, move):
+        # TODO add code to add last played piece back if we played it
+        # revert valid moves
+        # make similar stackset thing for invalid_points
+
+        raise ValueError("You left off here")
+        
         
     def add_border_points(self, move):
         invalid_points = move.orientation.get_border_points()

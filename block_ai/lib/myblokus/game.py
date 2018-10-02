@@ -32,7 +32,7 @@ class Game:
 
         logging.info("Player Pointer: %s", self.player_pointer)
     
-
+    
     def set_starting_moves(self):
         for i, c in enumerate(self.init_corners):
             self.add_corner_moves(c, i)
@@ -49,6 +49,16 @@ class Game:
         except RuntimeError as err:
             logging.exception(err)
 
+    def pop_moves(self):
+        for p in self.move_history[-1].orientation.points:
+            self.board.assign(p, Board.EMPTY)
+        
+        for player in self.players:
+            player.prev_move()
+
+        self.move_history = self.move_history[:-1]
+        self.set_prev_player()
+            
     def update_state(self, move):
         self.board.update(move)
         
@@ -127,8 +137,31 @@ class Game:
 
         raise GameEnd("Game Over")
 
+    def set_prev_player(self):
+        logging.info("Retreating Player")
+        self.player_pointer = self.get_prev_player()
+
+    def get_prev_player(self):
+        
+        turn_nums = [len(self.move_history) - i for i in range(4)]
+       
+        ptr = self.player_pointer
+
+        for i in range(4):
+
+            if turn_nums[i]  == 0:
+                raise ValueError("No prior turns")
+
+            ptr = self.retreate(ptr)
+
+            if self.players[ptr].has_move():
+                return ptr
+
     def advance(self, player_id):
         return (player_id + 1) % 4
+
+    def retreate(self, player_id):
+        return (player_id - 1) % 4
 
     def get_players_moves(self, player_id):
         return self.players[player_id].get_valid_moves()
