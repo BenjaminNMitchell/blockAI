@@ -22,6 +22,10 @@ class Player:
     def update(self, move):
         logging.info("Updating player %s", self.player_id)
         
+        self.valid_moves.next_move()
+        self.invalid_points_list.append(self.invalid_points.copy())
+        self.invalid_points = self.invalid_points_list[-1]
+
         if self.player_id == move.player_id:
 
             del self.pieces[move.piece_id]
@@ -30,9 +34,7 @@ class Player:
             
         self.clear_moves(move)
         
-        self.valid_moves.next_move()
-        self.invalid_points_list.append(self.invalid_points.copy())
-        self.invalid_points = self.invalid_points_list[-1]
+
 
     def pop_moves(self, move):
         # TODO make this a pieces a dict: (piece, bool)

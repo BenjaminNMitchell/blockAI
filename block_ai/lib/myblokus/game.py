@@ -42,22 +42,35 @@ class Game:
             raise RuntimeError(f"Move: {move} not players turn")
 
         try:
-            self.validate_move(move)
-            self.update_state(move)
-            self.move_history.append(move)
-            self.set_next_player()
+            if self.is_move_valid(move):
+                self.update_state(move)
+                self.move_history.append(move)
+                self.set_next_player()
         except RuntimeError as err:
             logging.exception(err)
 
     def pop_moves(self):
-        for p in self.move_history[-1].orientation.points:
+        logging.info("Poping Moves")
+        
+        if len(self.move_history) == 0:
+            raise RuntimeError("Cannot pop_moves already at initial state")
+
+           
+        
+        last_move = self.move_history.pop()
+
+        logging.info(f"Last Move: {last_move}")
+        logging.info("Unassigning Moves points from board")
+        
+        for p in last_move.orientation.points:
+            logging.info(f"unassigning point: {p}")
             self.board.assign(p, Board.EMPTY)
         
-        for player in self.players:
-            player.pop_moves(self.move_history[-1])
+        for i, player in enumerate(self.players):
+            logging.info(f"poping player {i}")
+            player.pop_moves(last_move)
 
         self.set_prev_player()
-        self.move_history.pop()
 
             
     def update_state(self, move):
@@ -153,11 +166,6 @@ class Game:
         logging.info(f"Turn nums: {turn_nums}")
         for i in range(4):
 
-            logging.info(f"I: {i}")
-            if turn_nums[i]  == 0:
-                raise ValueError("No prior turns")
-            
-            
             ptr = self.retreate(ptr)
 
             logging.info(f"New Pointer {ptr}")

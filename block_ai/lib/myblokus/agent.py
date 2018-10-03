@@ -35,12 +35,17 @@ class GreedyAgent(RandomAgent):
         return self.pick_random_move(largest_moves)
 
 class PointAgent(Agent):
+    
+
+    def __init__(self):
+        self.turn_counter = 0
+        super(__init__)
 
     def get_move(self, game):
-
+    
         moves = list(game.get_players_moves(self.player_id))
 
-        print(f"Analizing {len(moves)} moves:")
+        print(f"Analizing {len(moves)} potential moves on move: {self.turn_counter}")
 
         if len(moves) == 0:
             raise RuntimeError(f"Player {self.player_id} is out of moves")
@@ -49,15 +54,18 @@ class PointAgent(Agent):
         max_count = 0
 
         for i, move in enumerate(moves):
-            if i % 10 == 0 and i != 0:
+            if i % 100 == 0:
                 print(i)
 
-            game_copy = game.copy()
-            game_copy.make_move(move)
-            move_num = len(list(game_copy.get_players_moves(self.player_id)))
+            game.make_move(move)
+            move_num = len(list(game.get_players_moves(self.player_id)))
             if move_num > max_count:
                 max_count = move_num
                 max_move = move
+
+            game.pop_moves()
+
+        self.turn_counter += 1
 
         return max_move
 

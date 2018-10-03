@@ -2,20 +2,19 @@
 
 import itertools
 from copy import deepcopy
+import logging
 
 
 class ValidMoves:
     
     def __init__(self):
-        self.turn_counter = 0
         self.turn_moves = [{}]
-        self.valid_moves = self.turn_moves[self.turn_counter]
+        self.valid_moves = self.turn_moves[-1]
         
     def next_move(self):
-        self.turn_counter += 1
         
         self.turn_moves.append(self.get_vm_copy())
-        self.valid_moves = self.turn_moves[self.turn_counter]
+        self.valid_moves = self.turn_moves[-1]
     
     def get_vm_copy(self):
         new_dict = {}
@@ -31,9 +30,9 @@ class ValidMoves:
         return new_dict
     
     def prev_move(self):
-        self.turn_counter -= 1 
-        self.turn_moves = self.turn_moves[:-1]
-        self.valid_moves = self.turn_moves[self.turn_counter]
+        
+        _ = self.turn_moves.pop()
+        self.valid_moves = self.turn_moves[-1]
 
     #TODO Use (Corner, Piece) --> Move
     def add(self, move):
@@ -49,14 +48,17 @@ class ValidMoves:
             corner_moves[move.piece_id] = [move]
     
     def remove(self, move):
+        logging.info(f"Length 0 1: {len(self.turn_moves[0])}")
         self.valid_moves[move.corner][move.piece_id].remove(move)
         
+        logging.info(f"Length 0 2: {len(self.turn_moves[0])}")
         if self.valid_moves[move.corner][move.piece_id] == []:
             del self.valid_moves[move.corner][move.piece_id]
-    
+ 
+        logging.info(f"Length 0 3: {len(self.turn_moves[0])}")
         if self.valid_moves[move.corner] == {}:
             del self.valid_moves[move.corner]
-        
+
     def get_all(self):
         gens = [self.get_corner_moves(c) for c in self.get_corners()]
         for m in itertools.chain(*gens):
