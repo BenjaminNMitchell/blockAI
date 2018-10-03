@@ -37,9 +37,9 @@ class GreedyAgent(RandomAgent):
 class PointAgent(Agent):
     
 
-    def __init__(self):
+    def __init__(self, game):
         self.turn_counter = 0
-        super(__init__)
+        super().__init__(game)
 
     def get_move(self, game):
     
@@ -53,7 +53,7 @@ class PointAgent(Agent):
         max_move = None
         max_count = 0
 
-        for i, move in enumerate(moves):
+        for move in moves:
             if i % 100 == 0:
                 print(i)
 

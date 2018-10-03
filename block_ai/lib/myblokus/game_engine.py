@@ -42,7 +42,7 @@ class GameEngine:
             m = self.get_move()
             self.game.make_move(m)
         except RuntimeError as err:
-            logging.info(err)
+            logging.error(err)
             self.game.set_next_player()
 
         if self.display:
