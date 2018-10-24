@@ -1,2 +1,2 @@
 cat intro.md >| README.md
-cat BlokusHowTo.html >> README.md
+cat BlokusHowTo.md >> README.md
