@@ -5,3 +5,4 @@ __pycache__
 *.ipynb_checkpoints*
 .coverage
 notebooks/untracked_notebooks
+error_logs
