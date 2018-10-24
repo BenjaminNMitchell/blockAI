@@ -1,5 +1,6 @@
 import logging
 import itertools
+import datetime as dt
 
 from .game import Game, GameEnd
 from .agent import RandomAgent, GreedyAgent, HumanInput, PointAgent
@@ -41,12 +42,23 @@ class GameEngine:
         try:
             m = self.get_move()
             self.game.make_move(m)
+
         except RuntimeError as err:
             logging.error(err)
-            self.game.set_next_player()
+            self.write_move_history()
+            raise err
 
         if self.display:
             self.game.display(self.game.player_pointer - 1)
+
+    def write_move_history(self):
+
+        print(repr(self.game.move_history))
+        dir_name = '/Users/ben/Documents/Programming/Projects/blokus/blokus_ai/error_logs/'
+        f_name = f"failed_moves_{dt.datetime.now().strftime('%y-%m-%d_%H:%M')}.py"
+        f_path = dir_name + f_name
+        with open(f_path, 'w') as out:
+            out.write(repr(self.game.move_history))
             
     def get_move(self):
         ptr = self.game.player_pointer

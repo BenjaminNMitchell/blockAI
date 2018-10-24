@@ -1,8 +1,8 @@
 """This class defines an agent for the Blokus Game"""
 
 import random
-from copy import deepcopy
-
+import datetime as dt
+import logging
 
 class Agent:
 
@@ -35,37 +35,43 @@ class GreedyAgent(RandomAgent):
         return self.pick_random_move(largest_moves)
 
 class PointAgent(Agent):
-    
 
     def __init__(self, game):
         self.turn_counter = 0
         super().__init__(game)
 
     def get_move(self, game):
-    
+
         moves = list(game.get_players_moves(self.player_id))
 
-        print(f"Analizing {len(moves)} potential moves on move: {self.turn_counter}")
+        logging.info("Analizing %s potential moves on move: %s", len(moves), self.turn_counter)
 
         if len(moves) == 0:
             raise RuntimeError(f"Player {self.player_id} is out of moves")
 
         max_move = None
         max_count = 0
-
+        
+        t0 = dt.datetime.now()
         for move in moves:
-            if i % 100 == 0:
-                print(i)
 
             game.make_move(move)
             move_num = len(list(game.get_players_moves(self.player_id)))
-            if move_num > max_count:
+
+            if move_num >= max_count:
                 max_count = move_num
                 max_move = move
 
             game.pop_moves()
 
         self.turn_counter += 1
+
+        t1 = dt.datetime.now()
+
+        logging.info("Completed in %s seconds", (t1 - t0).total_seconds())
+
+        if max_move is None:
+            raise ValueError(f"Not returning a Max Move Moves Length: {len(moves)}")
 
         return max_move
 
@@ -81,10 +87,9 @@ class HumanInput(Agent):
         move = self.pick_move(game, piece, corner)
 
         return move
-    
 
     def pick_piece(self, player):
-        
+
         pieces = player.pieces
 
         string = "Please Pick a piece from one of the following:\n"
@@ -139,3 +144,4 @@ class HumanInput(Agent):
 
         except ValueError:
             print("Not a valid int try again")
+
