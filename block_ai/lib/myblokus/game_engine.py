@@ -3,7 +3,7 @@ import itertools
 import datetime as dt
 
 from .game import Game, GameEnd
-from .agent import RandomAgent, GreedyAgent, HumanInput, PointAgent
+from .agent import RandomAgent, GreedyAgent, HumanInput, PointAgent, GreedyPointAgent
 
 
 class GameEngine:
@@ -28,6 +28,8 @@ class GameEngine:
             return PointAgent(player_num)
         elif string == 'human':
             return HumanInput(player_num)
+        elif string == 'gpoint':
+            return GreedyPointAgent(player_num)
         else:
             raise ValueError(f"Invalid agent string {string}")
 

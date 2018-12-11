@@ -36,9 +36,9 @@ class GreedyAgent(RandomAgent):
 
 class PointAgent(Agent):
 
-    def __init__(self, game):
+    def __init__(self, player_id):
         self.turn_counter = 0
-        super().__init__(game)
+        super().__init__(player_id)
 
     def get_move(self, game):
 
@@ -74,6 +74,67 @@ class PointAgent(Agent):
             raise ValueError(f"Not returning a Max Move Moves Length: {len(moves)}")
 
         return max_move
+
+class GreedyPointAgent(Agent):
+
+    def __init__(self, player_id):
+        self.turn_counter = 0
+        super().__init__(player_id)
+
+    def get_move(self, game):
+ 
+        moves = list(game.get_players_moves(self.player_id))
+
+        biggest_piece_size = self.get_biggest_piece_size(moves)
+
+        logging.info("Analizing %s potential moves on move: %s", len(moves), self.turn_counter)
+
+        if len(moves) == 0:
+            raise RuntimeError(f"Player {self.player_id} is out of moves")
+
+        max_move = None
+        max_count = 0
+        
+        moves = filter(lambda x: len(x.orientation) == biggest_piece_size, moves)
+
+        t0 = dt.datetime.now()
+        for move in moves:
+
+            game.make_move(move)
+            move_num = len(list(game.get_players_moves(self.player_id)))
+
+            if move_num >= max_count:
+                max_count = move_num
+                max_move = move
+
+            game.pop_moves()
+
+        self.turn_counter += 1
+
+        t1 = dt.datetime.now()
+
+        logging.info("Completed in %s seconds", (t1 - t0).total_seconds())
+
+        if max_move is None:
+            raise ValueError(f"Not returning a Max Move Moves Length: {len(moves)}")
+
+        return max_move
+
+    def get_biggest_piece_size(self, moves):
+
+        max_piece_size = 0
+
+        for move in moves:
+ 
+            piece_size = len(move.orientation)
+
+            if piece_size > max_piece_size:
+                max_piece_size = piece_size
+
+            if max_piece_size == 5:
+                return 5
+
+        return max_piece_size
 
 class HumanInput(Agent):
 
