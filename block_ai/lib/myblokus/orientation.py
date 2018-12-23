@@ -96,5 +96,7 @@ class Orientation():
 
 
         inner = ", ".join([repr(p) for p in self.points])
+        if len(self.points) == 1:
+            inner += ','
         return f"Orientation(({inner}))"
 

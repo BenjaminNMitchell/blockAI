@@ -150,12 +150,22 @@ class OrientationPoints(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_repr(self):
+        ## Multiple Points Case
         # Given
         o = Orientation(self.points)
 
         # When
-        actual = repr(o)
+        new_o = eval(repr(o))
 
         # Then
-        expected = "Orientation(((1, 0), (0, 0), (1, 1)))"
-        self.assertEqual(actual, expected)
+        self.assertEqual(o, new_o)
+
+        ## Single Points Case
+        # Given
+        o = Orientation(((19, 19),))
+
+        # When
+        new_o = eval(repr(o))
+
+        # Then
+        self.assertEqual(o, new_o)
