@@ -2,8 +2,8 @@ import logging
 import itertools
 import datetime as dt
 
-from .game import Game, GameEnd
-from .agent import RandomAgent, GreedyAgent, HumanInput, PointAgent, GreedyPointAgent
+from .game import Game
+from .agent import RandomAgent, GreedyAgent, HumanInput, PointAgent, GreedyPointAgent, OutOfMoves
 
 
 class GameEngine:
@@ -34,14 +34,13 @@ class GameEngine:
             raise ValueError(f"Invalid agent string {string}")
 
     def play_game(self):
-        while True:
-            try:
-                self.play_turn()
-            except GameEnd:
-                break
+        while self.game.has_moves():
+            self.play_turn()
 
     def play_turn(self):
+
         try:
+
             m = self.get_move()
             self.game.make_move(m)
 
@@ -53,15 +52,6 @@ class GameEngine:
         if self.display:
             self.game.display(self.game.player_pointer - 1)
 
-    def write_move_history(self):
-
-        print(repr(self.game.move_history))
-        dir_name = '/Users/ben/Documents/Programming/Projects/blokus/blokus_ai/error_logs/'
-        f_name = f"failed_moves_{dt.datetime.now().strftime('%y-%m-%d_%H:%M')}.py"
-        f_path = dir_name + f_name
-        with open(f_path, 'w') as out:
-            out.write(repr(self.game.move_history))
-            
     def get_move(self):
         ptr = self.game.player_pointer
         logging.info("Player pointer: %s", ptr)

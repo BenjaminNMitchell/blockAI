@@ -54,8 +54,6 @@ class Game:
         
         if len(self.move_history) == 0:
             raise RuntimeError("Cannot pop_moves already at initial state")
-
-           
         
         last_move = self.move_history.pop()
 
@@ -70,9 +68,9 @@ class Game:
             logging.info(f"poping player {i}")
             player.pop_moves(last_move)
 
-        self.set_prev_player()
+        self.player_pointer = last_move.player_id
 
-            
+
     def update_state(self, move):
         self.board.update(move)
         
@@ -138,49 +136,12 @@ class Game:
         self.players[move.player_id].validate_move(move)
 
     def set_next_player(self):
-        logging.info("Advancing player")
-        self.player_pointer = self.get_next_player()
-
-    def get_next_player(self):
-        ptr = self.player_pointer
 
         for i in range(4):
-            ptr = self.advance(ptr)
-            if self.players[ptr].has_moves():
-                return ptr
-
-        raise GameEnd("Game Over")
-
-    def set_prev_player(self):
-        logging.info("Retreating Player")
-        logging.info(f"Current Player Pointer: {self.player_pointer}")
-        self.player_pointer = self.get_prev_player()
-        logging.info(f"New Player Pointer: {self.player_pointer}")
-
-    def get_prev_player(self):
-        
-        turn_nums = [len(self.move_history) - i for i in range(4)]
-       
-        ptr = self.player_pointer
-
-        logging.info(f"Turn nums: {turn_nums}")
-        for i in range(4):
-
-            ptr = self.retreate(ptr)
-
-            logging.info(f"New Pointer {ptr}")
-
-            if self.players[ptr].has_moves():
-                logging.info(f"Player: {ptr} has moves")
-                return ptr
-            else:
-                logging.info(f"Player: {ptr} does not have moves!")
-
-    def advance(self, player_id):
-        return (player_id + 1) % 4
-
-    def retreate(self, player_id):
-        return (player_id - 1) % 4
+            
+            self.player_pointer = (self.player_pointer + 1) % 4
+            if self.players[self.player_pointer].has_moves():
+                return
 
     def get_players_moves(self, player_id):
         return self.players[player_id].get_valid_moves()
@@ -202,6 +163,12 @@ class Game:
         new_game.players = deepcopy(self.players)
         new_game.move_history = deepcopy(self.move_history)
         return new_game
+    
+    def has_moves(self):
+        for p in self.players:
+            if p.has_moves():
+                return True
+        return False
 
     def get_scores(self):
         return { i: p.get_score() for i, p in enumerate(self.players)}
@@ -229,6 +196,3 @@ class Game:
         for p in move.orientation.points:
             board.assign(p, bad_fill)
         return board
-    
-class GameEnd(Exception):
-    pass

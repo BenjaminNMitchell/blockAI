@@ -1,4 +1,4 @@
-from block_ai.lib.myblokus.game import Game, GameEnd
+from block_ai.lib.myblokus.game import Game
 from benchmark_game import moves
 import argparse
 import timeit
@@ -11,12 +11,10 @@ args = parser.parse_args()
 
 def time_game():
     g = Game()
-    try:
-        for move in moves:
-            g.make_move(move)
+    for move in moves:
+        g.make_move(move)
             
-    except GameEnd:
-        return g
+    return g
 
 
 times = [timeit.timeit(stmt=time_game, number=1) for i in range(args.iterations)]

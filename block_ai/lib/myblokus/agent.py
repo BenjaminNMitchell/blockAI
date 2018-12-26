@@ -4,6 +4,9 @@ import random
 import datetime as dt
 import logging
 
+class OutOfMoves(Exception):
+    pass
+
 class Agent:
 
     def __init__(self, player_id):
@@ -21,7 +24,7 @@ class RandomAgent(Agent):
         
     def pick_random_move(self, moves):     
         if len(moves) == 0:
-            raise RuntimeError(f"Player {self.player_id} is out of moves")
+            raise OutOfMoves(f"Player {self.player_id} is out of moves")
 
         rand_int = random.randrange(len(moves))
         return moves[rand_int]
@@ -47,7 +50,7 @@ class PointAgent(Agent):
         logging.info("Analizing %s potential moves on move: %s", len(moves), self.turn_counter)
 
         if len(moves) == 0:
-            raise RuntimeError(f"Player {self.player_id} is out of moves")
+            raise OutOfMoves(f"Player {self.player_id} is out of moves")
 
         max_move = None
         max_count = 0
@@ -90,7 +93,7 @@ class GreedyPointAgent(Agent):
         logging.info("Analizing %s potential moves on move: %s", len(moves), self.turn_counter)
 
         if len(moves) == 0:
-            raise RuntimeError(f"Player {self.player_id} is out of moves")
+            raise OutOfMoves(f"Player {self.player_id} is out of moves")
 
         max_move = None
         max_count = 0
