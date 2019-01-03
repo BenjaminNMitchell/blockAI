@@ -34,7 +34,6 @@ class Orientation():
         
         invalid_points = self.get_border_points()
         invalid_points.update(self.points)
-        invalid_points.add((-1, -1))
         
         return {c for c in corner_points if c.p2 not in invalid_points}
 
