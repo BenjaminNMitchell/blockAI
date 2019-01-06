@@ -1,12 +1,12 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-class BoardView:
+class GameView:
 
     def __init__(self):
         pass
     
-    def display(self, board):
+    def display(self, game):
         n = 20
         my_dpi = 20
         canvasSize = (n,n)
@@ -15,7 +15,7 @@ class BoardView:
 
         for row in range(n):
             for col in range(n):
-                color = self.get_color(board[row][col])
+                color = self.get_color(game, (20 * row + col))
                 rect = self.createRectangle((1,1),(col,row),canvasSize,color)
                 ax.add_patch(rect)
 
@@ -41,7 +41,9 @@ class BoardView:
         """
         return patches.Rectangle((xy[0]/cwch[0],xy[1]/cwch[1]),wh[0]/cwch[0],wh[1]/cwch[1],color=color)
 
-    def get_color(self, val):
+    def get_color(self, game, index):
+ 
+              
         mapping = {
             -1: "#DCDCDC",
             0: "yellow",
@@ -52,4 +54,13 @@ class BoardView:
             5: "purple",
             6: "black"
         }
-        return mapping[val]
+
+        mask = 1 << (index)
+
+        for i, player in enumerate(game.players):
+
+            if player.full & mask:
+                return mapping[i]
+
+        return mapping[-1]
+            

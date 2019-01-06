@@ -1,41 +1,25 @@
 """A game of Blokus."""
 
 import logging
-from . import point
-from .player import Player
-from .piece import gen_pieces
-from .board import Board
-from .corner import Corner
-from .orientation import Orientation
-from .move import Move
-
 from copy import deepcopy
+
+from .player import Player
+from .board import Board
+from .move import Move
+from .game_view import GameView
 
 class Game:
 
-    def __init__(self, set_start_moves=True):
+    def __init__(self):
         self.board = Board()
+        self.move_history = []
         self.player_pointer = 0
         self.players = [Player(i) for i in range(4)]
-
-        self.init_corners = [Corner((-1, -1), (0, 0)),
-                             Corner((-1, 20), (0, 19)),
-                             Corner((20, 20), (19, 19)),
-                             Corner((20, -1), (19, 0))]
-
-        self.starting_points = [c.p1 for c in self.init_corners]
-
-        self.move_history = []
         
-        if set_start_moves:
-            self.set_starting_moves()
-
-        logging.info("Player Pointer: %s", self.player_pointer)
-    
-    
-    def set_starting_moves(self):
-        for i, c in enumerate(self.init_corners):
-            self.add_corner_moves(c, i)
+        shifts = [0, 19, 399, 380]
+        
+        for i, player in enumerate(self.players):
+            player.add_moves(1 << shifts[i], self.board)
 
     def make_move(self, move):
         if not move.player_id == self.player_pointer:
@@ -72,50 +56,15 @@ class Game:
 
 
     def update_state(self, move):
+        
         self.board.update(move)
         
         for player in self.players:
-            player.update(move)
-            
-        for corner in move.orientation.get_corners():
-            self.add_corner_moves(corner, move.player_id)
- 
-    def add_corner_moves(self, corner, player_id):
-        player = self.players[player_id]
-        rotation = corner.get_rotation_game()
-        
-        if not Board.on_board(corner.p2):
-            return
-        
-        for piece_id, piece in player.pieces.items():
-            
-            for orientation in piece.orientations:
-                
-                new_o = Orientation([point.add(corner.p2, rotation(p)) for p in orientation.points])
-                try:
-                    m = Move(new_o, player_id, piece_id, corner)
-
-                    if self.is_move_valid(m):
-                        player.add_move(m)
-                except RuntimeError as err:
-                    err_msg = f"Move: {m} invalid: original_orientation: {orientation}"
-                    logging.exception(err_msg)
+            player.update(move, self.board)
 
     def is_move_valid(self, move):
-
-        if not self.board.are_squares_free(move.orientation):
-            return False
-        play_point = move.corner.p1
-
-        if play_point not in self.starting_points:
-            val = self.board.check(play_point)
-            if val != move.player_id:
-                return False
-
-        if not self.players[move.player_id].is_move_valid(move):
-            return False
-
-        return True
+        return self.board.are_squares_free(move.piece) and self.players[move.player_id].is_move_valid(move)
+         
         
     def validate_move(self, move):
         
@@ -146,17 +95,6 @@ class Game:
     def get_players_moves(self, player_id):
         return self.players[player_id].get_valid_moves()
 
-    def display(self, player_id=None, bad_move=None):
-        board = self.board
-        
-        if player_id is not None:
-            board = self.fill_player_pov(board, player_id)
-            
-        if bad_move is not None:
-            board = self.fill_bad_move(board, bad_move)
-
-        board.display()
-
     def copy(self):
         new_game = Game(set_start_moves=False)
         new_game.board = deepcopy(self.board)
@@ -173,6 +111,23 @@ class Game:
     def get_scores(self):
         return { i: p.get_score() for i, p in enumerate(self.players)}
             
+ 
+    def display(self, player_id=None):
+        gv = GameView()
+        gv.display(self)
+
+"""       
+    def display(self, player_id=None):
+        board = self.board
+        
+        if player_id is not None:
+            board = self.fill_player_pov(board, player_id)
+            
+        if bad_move is not None:
+            board = self.fill_bad_move(board, bad_move)
+
+        board.display()
+        
     def fill_player_pov(self, board, player_id):
         board = board.copy()
         
@@ -187,12 +142,4 @@ class Game:
             if board.point_empty(corner.p2):
                 board.assign(corner.p2, corner_fill)
         return board
-
-    def fill_bad_move(self, board, move):
-        bad_fill = 6
-        
-        board = board.copy()
-
-        for p in move.orientation.points:
-            board.assign(p, bad_fill)
-        return board
+"""

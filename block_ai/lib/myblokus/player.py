@@ -5,104 +5,99 @@ Pieces, valid moves, and invalid squares.
 """
 
 import logging
-from .piece import gen_pieces
 from .valid_moves import ValidMoves
-from .board import Board
 from copy import deepcopy
+from .position import positions
+from .move import Move
 
 class Player:
 
     def __init__(self, player_id):
         self.player_id = player_id
-        self.pieces = gen_pieces()
+        self.full = 0
+        self.adj = 0
+        self.corners = 0
+        self.pieces = [True] * 21
         self.valid_moves = ValidMoves()
-        self.invalid_points_list = [set()]
-        self.invalid_points = self.invalid_points_list[0]
-        
-    def update(self, move):
-        logging.info("Updating player %s", self.player_id)
-        
-        self.valid_moves.next_move()
-        self.invalid_points_list.append(self.invalid_points.copy())
-        self.invalid_points = self.invalid_points_list[-1]
+
+    def update(self, move, board):
+
+        if self.player_id == move.player_id:
+            self.pieces[move.piece_id] = False
+            self.full |= move.piece
+            self.adj  |= move.adj
+
+            new_corners = move.corners & ~ self.corners
+            self.add_moves(new_corners, board)
+
+        self.clear_moves(move)
+
+    def add_moves(self, new_corners, board):
+
+        c = 1
+
+        new_moves = set()
+
+        for index in range(400):
+
+            if new_corners & c:
+                for i in range(21):
+
+                    if self.pieces[i]:
+
+                        for p in positions[i]:
+
+                            shifted = p.shift(index)
+
+                            if shifted != -1 and board.are_squares_free(shifted) and not shifted & self.adj:
+                                (adj, corners) = p.get_other_ints(index, shifted)
+                                new_moves.add(Move(shifted, adj, corners, self.player_id, i))
+ 
+            c <<= 1
+ 
+        self.valid_moves.push(new_moves)
+ 
+        self.corners |= new_corners 
+
+    def clear_moves(self, move):
+ 
+        valid_moves = list(self.valid_moves.get_all())
+
+        if self.player_id == move.player_id:
+            bad_points = move.piece | move.adj
+ 
+        else:
+            bad_points = move.piece
+ 
+        for m in valid_moves:
+            if not self.pieces[m.piece_id] or m.piece & bad_points:
+                self.valid_moves.remove(m)
+
+    def pop(self, move):
 
         if self.player_id == move.player_id:
 
-            del self.pieces[move.piece_id]
-            
-            self.add_border_points(move)
-            
-        self.clear_moves(move)
-        
+            self.pieces[move.piece_id] = True
+            self.full = self.full & ~ move.piece
+            self.corners.pop()
+            self.adj.pop()
+            self.valid_moves.pop()
 
-
-    def pop_moves(self, move):
-        # TODO make this a pieces a dict: (piece, bool)
-        if move.player_id == self.player_id:
-            piece = gen_pieces()[move.piece_id]
-            self.pieces[move.piece_id] = piece
-
-        self.valid_moves.prev_move()
-        
-        self.invalid_points_list = self.invalid_points_list[:-1]
-        self.invalid_points = self.invalid_points_list[-1]
-        
-    def add_border_points(self, move):
-        invalid_points = move.orientation.get_border_points()
-        invalid_points = list(filter(Board.on_board, invalid_points))
-        self.invalid_points.update(invalid_points)
-
-    def clear_moves(self, move):
-        
-        valid_moves = list(self.valid_moves.get_all())
-
-        for m in valid_moves:
-                
-            if not self.is_move_valid(m):
-                self.valid_moves.remove(m)
-                continue
-                
-            if self.overlap(m, move):
-                self.valid_moves.remove(m)
-                
-
-    def overlap(self, m1, m2):
-        return not m1.orientation.points.isdisjoint(m2.orientation.points)
+        else:
+            # do recalculate from new corner
+            # Maybe track in valid moves ones that got errased in the current turn
+            pass
 
     def is_move_valid(self, move):
-        if not move.piece_id in self.pieces:
-           return False
-
-        return move.orientation.points.isdisjoint(self.invalid_points)
-
-    def get_score(self):
-        return sum([len(p) for p in self.pieces.values()])
-
-    def validate_move(self, move):
-        if not move.piece_id in self.pieces:
-            raise RuntimeError(f"Move {move} invalid. Already played {move.piece_id}")
-        
-        #TODO optimize this
-        new_points = move.orientation.points
-        for p in new_points:
-            if p in self.invalid_points:
-                raise RuntimeError(f"Move {move} invalid. Includes invalid point {p}")
-
-    def get_corners(self):
-        return self.valid_moves.get_corners()
-
-    def add_move(self, move):
-        self.valid_moves.add(move)
-
-    def copy(self):
-        copy = Player(self.player_id)
-        copy.valid_moves = self.valid_moves.copy()
-        copy.pieces = deepcopy(self.pieces)
-        copy.invalid_points = deepcopy(self.invalid_points)
-        return copy
-
+        p = move.piece 
+        return self.pieces[move.piece_id] and (not (p & self.adj)) and (p & self.corners)
+ 
     def has_moves(self):
         return len(self.valid_moves) > 0
+
+    def get_score(self):
+        sizes = [1, 2, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+        return sum([size for piece, size in zip(self.pieces, sizes) if piece])
 
     def get_valid_moves(self):
         return self.valid_moves.get_all()
