@@ -9,8 +9,12 @@ RIGHT_SIDE_MASK = eval("0b" + ("0" * 19 + "1") * 20)
 
 pieces = gen_pieces()
 
+
 class Position:
-    
+
+       
+    origin_map = [0, 210, 209, 189, 190]
+
     def __init__(self, piece, adj, corners, quadrent, lower_bound):
         self.piece = piece
         self.adj = adj
@@ -21,8 +25,8 @@ class Position:
 
     def shift(self, index):
         
-        origin_map = {1: 210, 2: 209, 3: 189, 4: 190}
-        shift = index - origin_map[self.quadrent]
+
+        shift = index - self.origin_map[self.quadrent]
         
         if shift > 0:
             
