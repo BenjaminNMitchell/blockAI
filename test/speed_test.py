@@ -35,13 +35,7 @@ def get_time_string(time):
         time *= metric_conversion
 
     return f"{time:.2f} {unit}"
-
-    
-    
    
-        
-        
-
 print("\n==================== Timing Results ====================\n")
 print(f"    Total Time: {get_time_string(avg_s)} ± {get_time_string(std_dev)} for {args.iterations} runs")
 print("\n========================== End =========================\n")
