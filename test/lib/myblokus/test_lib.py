@@ -1,13 +1,13 @@
 from block_ai.lib.myblokus.move import Move
 from block_ai.lib.myblokus.corner import Corner
 from block_ai.lib.myblokus import point  
-from block_ai.lib.myblokus.orientation import Orientation
+from block_ai.lib.myblokus.position import Position
 
 
-def get_move(orientation=None, player_id=None, piece_id=None, corner=None):
-
-    if orientation is None:
-        orientation = get_orientation()
+def get_move(piece=None,  player_id=None, piece_id=None):
+    
+    if piece is None:
+        piece = (14680067, 15393180614668, 18691697672208)
 
     if player_id is None:
         player = 0
@@ -15,22 +15,4 @@ def get_move(orientation=None, player_id=None, piece_id=None, corner=None):
     if piece_id is None:
         piece_id = 'p4'
 
-    if corner is None:
-        corner = get_corner()
-
-    return Move(orientation, player_id, piece_id, corner)
-
-
-def get_orientation():
-
-    points = (
-        (0, 0),
-        (0, 1),
-        (1, 1)
-        )
-
-    return Orientation(points)
-
-def get_corner():
-
-    return Corner((-1, -1), (0, 0))
+    return Move(*piece, player_id, piece_id)

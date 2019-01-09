@@ -25,41 +25,27 @@ class MoveTests(unittest.TestCase):
     def test_hash_not_equal_orientation(self):
         # Given
         # differ for the two components of a move
-        orientation2 = Orientation((
-            (0, 0),
-            (0, 1),
-            (0, 2)
-            ))
 
         player_id3 = 1
 
         move1 = tl.get_move()
-        move2 = tl.get_move(orientation=orientation2)
-        move3 = tl.get_move(player_id=player_id3)
+        
+        move2 = tl.get_move(piece=(1, 1, 1))
 
         # When
         h1 = hash(move1)
         h2 = hash(move2)
-        h3 = hash(move3)
 
         # Then
         self.assertNotEqual(h1, h2)
-        self.assertNotEqual(h1, h3)
+
 
     def test_eq(self):
         
-        orientation2 = Orientation((
-            (0, 0),
-            (0, 1),
-            (0, 2)
-            ))
-
         player_id3 = 1
 
         move1 = tl.get_move()
-        move2 = tl.get_move(orientation=orientation2)
-        move3 = tl.get_move(player_id=player_id3)
+        move2 = tl.get_move(piece=(1, 1, 1))
 
         # Then
         self.assertNotEqual(move1, move2)
-        self.assertNotEqual(move1, move3)
