@@ -1,5 +1,5 @@
 from block_ai.lib.myblokus.game import Game
-from .turn_moves import turn_moves
+from .benchmark_game import moves, turn_moves
 import unittest
 
 
@@ -8,16 +8,19 @@ class GameTests(unittest.TestCase):
     def test_game(self):
         # Given
         game = Game()
-
+        
         # When
-        for turn_num in turn_moves:
+        actual_moves = [set(game.get_players_moves(i)) for i in range(4)]
+        self.assertEqual( turn_moves[0], actual_moves)
 
-            move, expected_moves  = turn_moves[turn_num]
-
-            actual_moves = set(game.get_players_moves(move.player_id))
-
-            self.assertEqual(actual_moves, set(expected_moves))
+        for move, expected_moves in zip(moves, turn_moves[1:]):
 
             game.make_move(move)
+
+            actual_moves = [set(game.get_players_moves(i)) for i in range(4)]
+
+            self.assertEqual(actual_moves, expected_moves)
+
+
         
         self.assertFalse(game.has_moves())

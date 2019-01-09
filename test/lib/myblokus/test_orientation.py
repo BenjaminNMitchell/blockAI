@@ -47,7 +47,8 @@ class OrientationPoints(unittest.TestCase):
             Corner((0, 0), (-1, 1)),
             Corner((1, 1), (0, 2)),
             Corner((1, 0), (2, -1)),
-            Corner((1, 1), (2, 2))
+            Corner((1, 1), (2, 2)),
+            Corner((0, 0), (-1, -1))
         }
         self.assertEqual(actual, expected)
 
