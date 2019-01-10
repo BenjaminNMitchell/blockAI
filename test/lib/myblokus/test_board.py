@@ -5,7 +5,5 @@ import hypothesis
 
 
 class PlayerBoard(unittest.TestCase):
-
-    def test_board(self):
-        # Given
-        b = Board()
+    # TODO Write some tests
+    pass

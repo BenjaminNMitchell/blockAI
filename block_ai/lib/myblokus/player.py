@@ -12,27 +12,38 @@ from .move import Move
 
 class Player:
 
-    def __init__(self, player_id):
+
+    start_corner_positions = [0, 19, 399, 380]
+
+    def __init__(self, player_id, board):
         self.player_id = player_id
         self.full = 0
-        self.adj = 0
-        self.corners = 0
+        self.adj = [0]
+        self.corners = [1 << self.start_corner_positions[player_id]]
         self.pieces = [True] * 21
         self.valid_moves = ValidMoves()
+
+        self.valid_moves.push( new_moves=self.get_new_moves(self.corners[-1], board) )
 
     def update(self, move, board):
 
         if self.player_id == move.player_id:
             self.pieces[move.piece_id] = False
             self.full |= move.piece
-            self.adj  |= move.adj
+            self.adj.append(self.adj[-1] | move.adj)
 
-            new_corners = move.corners & ~ self.corners
-            self.add_moves(new_corners, board)
+            new_corners = move.corners & ~ self.corners[-1]
 
-        self.clear_moves(move)
+            self.valid_moves.push(new_moves=self.get_new_moves(new_corners, board),
+                                  invalid_moves=self.get_invalid_moves(move))
+           
+            self.corners.append( self.corners[-1] | new_corners )
 
-    def add_moves(self, new_corners, board):
+        else:
+            self.valid_moves.push(invalid_moves=self.get_invalid_moves(move))
+
+
+    def get_new_moves(self, new_corners, board):
 
         c = 1
 
@@ -49,19 +60,19 @@ class Player:
 
                             shifted = p.shift(index)
 
-                            if shifted != -1 and board.are_squares_free(shifted) and not shifted & self.adj:
+                            if shifted != -1 and board.are_squares_free(shifted) and not shifted & self.adj[-1]:
                                 (adj, corners) = p.get_other_ints(index, shifted)
                                 new_moves.add(Move(shifted, adj, corners, self.player_id, i))
  
             c <<= 1
- 
-        self.valid_moves.push(new_moves)
- 
-        self.corners |= new_corners 
 
-    def clear_moves(self, move):
+        return new_moves
+ 
+    def get_invalid_moves(self, move):
  
         valid_moves = list(self.valid_moves.get_all())
+        
+        invalid_moves = set()
 
         if self.player_id == move.player_id:
             bad_points = move.piece | move.adj
@@ -71,7 +82,9 @@ class Player:
  
         for m in valid_moves:
             if not self.pieces[m.piece_id] or m.piece & bad_points:
-                self.valid_moves.remove(m)
+                invalid_moves.add(m)
+
+        return invalid_moves
 
     def pop(self, move):
 
@@ -81,16 +94,12 @@ class Player:
             self.full = self.full & ~ move.piece
             self.corners.pop()
             self.adj.pop()
-            self.valid_moves.pop()
 
-        else:
-            # do recalculate from new corner
-            # Maybe track in valid moves ones that got errased in the current turn
-            pass
+        self.valid_moves.pop()
 
     def is_move_valid(self, move):
         p = move.piece 
-        return self.pieces[move.piece_id] and (not (p & self.adj)) and (p & self.corners)
+        return self.pieces[move.piece_id] and (not (p & self.adj[-1])) and (p & self.corners[-1])
  
     def has_moves(self):
         return len(self.valid_moves) > 0
@@ -101,4 +110,15 @@ class Player:
 
     def get_valid_moves(self):
         return self.valid_moves.get_all()
+
+    def __eq__(self, other):
+       
+        return (
+                self.full == other.full and
+                self.adj == other.adj and
+                self.corners == other.corners and
+                self.pieces == other.pieces and
+                self.valid_moves == other.valid_moves and
+                self.player_id == other.player_id
+               )
 

@@ -24,3 +24,19 @@ class GameTests(unittest.TestCase):
 
         
         self.assertFalse(game.has_moves())
+
+
+    def test_pop(self):
+        
+        g1 = Game()
+        g2 = Game()
+        
+        self.assertEqual(g1, g2)
+
+        g1.make_move(moves[0])
+
+        self.assertNotEqual(g1, g2)
+
+        g1.pop()
+
+        self.assertEqual(g1, g2)

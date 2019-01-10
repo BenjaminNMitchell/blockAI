@@ -14,12 +14,7 @@ class Game:
         self.board = Board()
         self.move_history = []
         self.player_pointer = 0
-        self.players = [Player(i) for i in range(4)]
-        
-        shifts = [0, 19, 399, 380]
-        
-        for i, player in enumerate(self.players):
-            player.add_moves(1 << shifts[i], self.board)
+        self.players = [Player(i, self.board) for i in range(4)]
 
     def make_move(self, move):
         if not move.player_id == self.player_pointer:
@@ -33,7 +28,7 @@ class Game:
         except RuntimeError as err:
             logging.exception(err)
 
-    def pop_moves(self):
+    def pop(self):
         logging.info("Poping Moves")
         
         if len(self.move_history) == 0:
@@ -44,20 +39,18 @@ class Game:
         logging.info(f"Last Move: {last_move}")
         logging.info("Unassigning Moves points from board")
         
-        for p in last_move.orientation.points:
-            logging.info(f"unassigning point: {p}")
-            self.board.assign(p, Board.EMPTY)
+        self.board.unassign(last_move)
         
         for i, player in enumerate(self.players):
             logging.info(f"poping player {i}")
-            player.pop_moves(last_move)
+            player.pop(last_move)
 
         self.player_pointer = last_move.player_id
 
 
     def update_state(self, move):
         
-        self.board.update(move)
+        self.board.assign(move)
         
         for player in self.players:
             player.update(move, self.board)
@@ -101,6 +94,13 @@ class Game:
         new_game.players = deepcopy(self.players)
         new_game.move_history = deepcopy(self.move_history)
         return new_game
+
+    def __eq__(self, other):
+        
+        return (self.board == other.board and
+                self.players == other.players and
+                self.move_history == other.move_history and
+                self.player_pointer == other.player_pointer)
     
     def has_moves(self):
         for p in self.players:

@@ -11,17 +11,16 @@ import unittest
 
 class ValidMovesTests(unittest.TestCase):
 
-    def test_entry(self):
+    def test_push(self):
         # Given
         vm = ValidMoves()
         move = tl.get_move()
 
         # When
-        vm.push({move})
+        vm.push(new_moves={move})
         moves = list(vm.get_all())
 
         # Then
-        self.assertEqual(len(moves), 1)
         self.assertEqual([move], moves)
 
 
@@ -32,7 +31,7 @@ class ValidMovesTests(unittest.TestCase):
         vm.push(new_moves={move})
 
         # When
-        vm.remove(move)
+        vm.push(invalid_moves={move})
         moves = list(vm.get_all())
 
         # Then
@@ -45,7 +44,40 @@ class ValidMovesTests(unittest.TestCase):
         moves = {tl.get_move(), tl.get_move((1,1,1))}
 
         # When
-        vm.push(moves)
+        vm.push(new_moves=moves)
 
         # Then
         self.assertEqual(len(vm), 2)
+
+    def test_pop(self):
+        # Given
+        vm = ValidMoves()
+        move = tl.get_move()
+
+        # When
+        vm.push(new_moves={move})
+        moves1 = list(vm.get_all())
+        vm.pop()
+        moves2 = list(vm.get_all())
+
+        # Then
+
+        self.assertEqual([move], moves1)
+        self.assertEqual([], moves2)
+
+    def test_eq(self):
+        
+        # Given
+        vm1 = ValidMoves()
+        vm2 = ValidMoves()
+        
+        self.assertEqual(vm1, vm2)
+    
+        move = tl.get_move()
+        vm1.push(new_moves={move})
+        
+        self.assertNotEqual(vm1, vm2)
+
+        vm1.pop()
+      
+        self.assertEqual(vm1, vm2)
