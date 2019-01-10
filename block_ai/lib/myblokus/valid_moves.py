@@ -5,10 +5,14 @@ class ValidMoves:
         
     def push(self, *, invalid_moves=set(), new_moves=None):
 
+        self.valid_moves.append(self.valid_moves[-1].copy() )
+
+        
         if new_moves:
-            self.valid_moves.append((self.valid_moves[-1] | new_moves) - invalid_moves)
-        else:
-            self.valid_moves.append(self.valid_moves[-1] - invalid_moves)
+            self.valid_moves[-1].update(new_moves)
+
+        self.valid_moves[-1] -= invalid_moves
+
     
     def pop(self):
         self.valid_moves.pop()

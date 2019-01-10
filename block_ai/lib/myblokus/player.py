@@ -49,7 +49,7 @@ class Player:
 
         c = 1
 
-        new_moves = set()
+        new_moves = []
 
         for index in range(400):
 
@@ -62,11 +62,11 @@ class Player:
 
                             shifted = p.shift(index)
 
-
-
                             if shifted != -1 and (not (invalid_points & shifted)):
-                                (adj, corners) = p.get_other_ints(index, shifted)
-                                new_moves.add(Move(shifted, adj, corners, self.player_id, i))
+
+                                m = Move(shifted, *p.get_other_ints(index, shifted), self.player_id, i)
+
+                                new_moves.append(m)
  
             c <<= 1
 
