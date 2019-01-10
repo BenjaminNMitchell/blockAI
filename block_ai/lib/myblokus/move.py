@@ -14,3 +14,8 @@ class Move:
 
     def __eq__(self, other):
         return self.piece == other.piece
+
+    def get_size(self):
+       return [1, 2, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5][self.piece_id]
+        
+       

@@ -3,6 +3,7 @@ from . import point
 from .orientation import Orientation
 
 BITSIZE = 400
+ORIGIN = 210
 UPPER_BOUND = (1 << 400) - 1
 LEFT_SIDE_MASK = eval("0b" + ("1" + "0" * 19) * 20)
 RIGHT_SIDE_MASK = eval("0b" + ("0" * 19 + "1") * 20)
@@ -11,9 +12,6 @@ pieces = gen_pieces()
 
 
 class Position:
-
-       
-    origin_map = [0, 210, 209, 189, 190]
 
     def __init__(self, piece, adj, corners, quadrent, lower_bound):
         self.piece = piece
@@ -26,7 +24,7 @@ class Position:
     def shift(self, index):
         
 
-        shift = index - self.origin_map[self.quadrent]
+        shift = index - ORIGIN 
         
         if shift > 0:
             
@@ -41,16 +39,15 @@ class Position:
 
             if new < self.lower_bound:
                 return -1
-        
+
         if (LEFT_SIDE_MASK & new) and (RIGHT_SIDE_MASK & new):
             return -1
-        
+
         return new
     
     def get_other_ints(self, index, piece):
         
-        origin_map = {1: 210, 2: 209, 3: 189, 4: 190}
-        shift = index - origin_map[self.quadrent]
+        shift = index - ORIGIN
         
         if shift > 0:
             
@@ -88,12 +85,9 @@ def get_size(integer):
 
     return count
 
-def points_to_int(points, quadrent):
-    
-    origin_map = {1: 210, 2: 209, 3: 189, 4: 190}
-    
+def points_to_int(points):
     indices = sorted([20 * j + i for (i, j) in points], reverse=True)
-    indices = [i + origin_map[quadrent] for i in indices]
+    indices = [i + ORIGIN for i in indices]
     
     integer = 0
     
@@ -124,8 +118,8 @@ for pid, p  in pieces.items():
 
             new_o = Orientation([rot(p) for p in o.points])
 
-            piece = points_to_int(new_o.points, q)
-            adj = points_to_int(new_o.get_border_points(), q)
-            corners = points_to_int([c.p2 for c in new_o.get_corners()], q)
+            piece = points_to_int(new_o.points)
+            adj = points_to_int(new_o.get_border_points())
+            corners = points_to_int([c.p2 for c in new_o.get_corners()])
             lower_bound = get_min_val(piece)
             positions[pid].append(Position(piece, adj, corners, q, lower_bound))

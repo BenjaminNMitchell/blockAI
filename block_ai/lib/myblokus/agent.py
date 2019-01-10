@@ -33,8 +33,8 @@ class GreedyAgent(RandomAgent):
 
     def get_move(self, game):
         valid_moves = list(game.get_players_moves(self.player_id))
-        max_len = max([len(m.orientation) for m in valid_moves])
-        largest_moves = list(filter(lambda m: len(m.orientation) == max_len, valid_moves))
+        max_len = max([m.get_size() for m in valid_moves])
+        largest_moves = list(filter(lambda m: m.get_size() == max_len, valid_moves))
         return self.pick_random_move(largest_moves)
 
 class PointAgent(Agent):
@@ -65,7 +65,7 @@ class PointAgent(Agent):
                 max_count = move_num
                 max_move = move
 
-            game.pop_moves()
+            game.pop()
 
         self.turn_counter += 1
 
@@ -98,7 +98,7 @@ class GreedyPointAgent(Agent):
         max_move = None
         max_count = 0
         
-        moves = filter(lambda x: len(x.orientation) == biggest_piece_size, moves)
+        moves = filter(lambda m: m.get_size() == biggest_piece_size, moves)
 
         t0 = dt.datetime.now()
         for move in moves:
@@ -110,7 +110,7 @@ class GreedyPointAgent(Agent):
                 max_count = move_num
                 max_move = move
 
-            game.pop_moves()
+            game.pop()
 
         self.turn_counter += 1
 
@@ -129,7 +129,7 @@ class GreedyPointAgent(Agent):
 
         for move in moves:
  
-            piece_size = len(move.orientation)
+            piece_size = move.get_size()
 
             if piece_size > max_piece_size:
                 max_piece_size = piece_size

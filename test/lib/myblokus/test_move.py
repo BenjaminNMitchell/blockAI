@@ -49,3 +49,18 @@ class MoveTests(unittest.TestCase):
 
         # Then
         self.assertNotEqual(move1, move2)
+
+    def test_get_size(self):
+        # Given 
+        move1 = tl.get_move(piece_id=0)
+        move2 = tl.get_move(piece_id=1)
+        move3 = tl.get_move(piece_id=2)
+        move4 = tl.get_move(piece_id=5)
+        move5 = tl.get_move(piece_id=10)
+
+        self.assertEqual(1, move1.get_size())
+        self.assertEqual(2, move2.get_size())
+        self.assertEqual(3, move3.get_size())
+        self.assertEqual(4, move4.get_size())
+        self.assertEqual(5, move5.get_size())
+            
