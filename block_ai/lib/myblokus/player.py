@@ -23,7 +23,7 @@ class Player:
         self.pieces = [True] * 21
         self.valid_moves = ValidMoves()
 
-        self.valid_moves.push( new_moves=self.get_new_moves(self.corners[-1], board) )
+        self.valid_moves.push( new_moves=self.get_new_moves(self.corners[-1], 0) )
 
     def update(self, move, board):
 
@@ -32,18 +32,20 @@ class Player:
             self.full |= move.piece
             self.adj.append(self.adj[-1] | move.adj)
 
-            new_corners = move.corners & ~ self.corners[-1]
+            invalid_points = board.board | self.adj[-1]
 
-            self.valid_moves.push(new_moves=self.get_new_moves(new_corners, board),
+            new_corners = move.corners & ~ (self.corners[-1] | (invalid_points))
+
+            self.valid_moves.push(new_moves=self.get_new_moves(new_corners, invalid_points),
                                   invalid_moves=self.get_invalid_moves(move))
            
-            self.corners.append( self.corners[-1] | new_corners )
+            self.corners.append( self.corners[-1] | new_corners  )
 
         else:
             self.valid_moves.push(invalid_moves=self.get_invalid_moves(move))
 
 
-    def get_new_moves(self, new_corners, board):
+    def get_new_moves(self, new_corners, invalid_points):
 
         c = 1
 
@@ -60,7 +62,9 @@ class Player:
 
                             shifted = p.shift(index)
 
-                            if shifted != -1 and board.are_squares_free(shifted) and not shifted & self.adj[-1]:
+
+
+                            if shifted != -1 and (not (invalid_points & shifted)):
                                 (adj, corners) = p.get_other_ints(index, shifted)
                                 new_moves.add(Move(shifted, adj, corners, self.player_id, i))
  
