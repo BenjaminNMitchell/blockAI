@@ -73,6 +73,13 @@ class Position:
         
         return (new_adj, new_corners)
 
+    def __hash__(self):
+        return hash(self.piece)
+
+    def __eq__(self, other):
+        return self.piece == other.piece
+
+
 def get_size(integer):
     
     i = integer
@@ -107,7 +114,7 @@ def get_min_val(i):
 def fix_overflow(i):
     return i & UPPER_BOUND
 
-positions = [ [] for i in range(21)]
+positions = [ set() for i in range(21)]
 
 for pid, p  in pieces.items():
     
@@ -122,4 +129,6 @@ for pid, p  in pieces.items():
             adj = points_to_int(new_o.get_border_points())
             corners = points_to_int([c.p2 for c in new_o.get_corners()])
             lower_bound = get_min_val(piece)
-            positions[pid].append(Position(piece, adj, corners, q, lower_bound))
+            positions[pid].add(Position(piece, adj, corners, q, lower_bound))
+
+positions = [list(s) for s in positions]
