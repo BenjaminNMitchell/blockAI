@@ -14,7 +14,7 @@ This requires the pipenv package
 
 ``` bash
 # install the pipenv package manager
-$ pip install pipenv
+$ pip install pipenv --deploy
 
 # Installs the python pcakages 
 $ pipenv install
